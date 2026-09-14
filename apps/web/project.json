@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "dev": {
+      "executor": "@nx/next:server",
+      "options": {
+        "port": 4200,
+        "buildTarget": "build"
+      }
+    }
+  }
+}

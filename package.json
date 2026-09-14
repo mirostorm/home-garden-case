@@ -2,7 +2,11 @@
   "name": "@itp-home-garden/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "dev:api": "nx run api:dev",
+    "dev:web": "nx run web:dev",
+    "dev": "nx run-many --target=dev --parallel"
+  },
   "private": true,
   "dependencies": {
     "@fastify/autoload": "~6.0.3",
