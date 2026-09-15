@@ -1,2 +1,4 @@
-export * from './Table';
+export * from './Button';
+export * from './LoadingSpinner';
+export * from './Modal';
 
