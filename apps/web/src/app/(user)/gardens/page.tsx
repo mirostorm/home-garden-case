@@ -1,4 +1,4 @@
-import { GardensTable } from '@/components/@gardens';
+import { CreateGardenForm, GardensTable } from '@/components/@gardens';
 import { Metadata } from 'next';
 import { Suspense } from 'react';
 
@@ -23,6 +23,9 @@ const GardensPage = async () => {
 
   return (
     <div className="max-w-full overflow-x-auto">
+      <div className="flex items-center justify-end mb-6">
+        <CreateGardenForm />
+      </div>
       <Suspense fallback={<div>Loading...</div>}>
         <GardensTable gardens={gardens} />
       </Suspense>

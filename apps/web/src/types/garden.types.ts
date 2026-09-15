@@ -8,3 +8,5 @@ export interface Garden {
   createdAt: string;
   updatedAt: string;
 }
+
+export type CreateGardenInput = Omit<Garden, 'gardenId' | 'createdAt' | 'updatedAt'>;
