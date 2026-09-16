@@ -1,36 +1,56 @@
 # ItpHomeGarden
 
-This repository uses an [Nx Monorepo](https://nx.dev/) setup, feel free to add you frontend inside this repository or create a separate repository.
+This repository uses an [Nx Monorepo](https://nx.dev/) setup.
 
 ## Prerequisites
 
-You have Node.js installed on your machine and ran:
+Before running the app, make sure you have:
 
-```sh
+- Node.js installed (correct version -> `nvm use`)
+- npm available
+- dependencies installed from the workspace root
+
+## Install dependencies
+
+From the repository root:
+
+```bash
 npm install
 ```
 
-## Run backend
+## Run the app
 
-To run the backend, you can use this command
+### Start both frontend and backend together
 
-```sh
-npx nx dev api
+```bash
+npm run dev
 ```
 
-Once it's running, you can check out the api specs at http://localhost:3000/docs
+This runs the workspace in parallel using Nx.
 
-## How to add your frontend
+### Start only the frontend
 
-You can use the [Nx Docs](https://nx.dev/docs/technologies) to add your frontend to this repository.
-For example, to add Remix, run this:
-
-```sh
-npx nx add @nx/remix
-npx nx g @nx/remix:app apps/web
+```bash
+npx nx run web:dev
 ```
 
-After installation, you can run the web application using:
-```sh
-npx nx dev web
+The web app runs on:
+
+- http://localhost:4200
+
+### Start only the API
+
+```bash
+npx nx run api:dev
 ```
+
+The API runs on:
+
+- http://localhost:3000
+  Once it's running, you can check out the api specs at http://localhost:3000/docs
+
+## Frontend
+
+This project uses a Next.js frontend project. It provides a dashboard for managing gardens and the plants within them, with a UI built on App Router, Tailwind CSS with ShadCN, and reusable component patterns.
+
+For more info on the front-end project, see the [Frontend README](./apps/web/README.md).
