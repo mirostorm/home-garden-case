@@ -1,18 +1,18 @@
 'use client';
 
+import { createGarden } from '@/actions/garden.actions';
 import { useActionState, useState } from 'react';
-import { FormDialog } from '../@form';
+import { FormDialog } from '../../@form';
 
-import { createPlant } from '@/actions/plant.actions';
 import { Button } from '@/components/ui';
 import { PlusIcon } from '@phosphor-icons/react';
-import BasePlantForm from './BasePlantForm';
+import BaseGardenForm from './BaseGardenForm';
 
-const CreatePlantForm = ({ gardenId }: { gardenId: number }) => {
+const CreateGardenForm = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [state, action, pending] = useActionState(
     async (prevState: unknown, formData: FormData) => {
-      const res = await createPlant(prevState, formData);
+      const res = await createGarden(prevState, formData);
       if (res.success) setIsOpen(false);
       return res;
     },
@@ -23,22 +23,22 @@ const CreatePlantForm = ({ gardenId }: { gardenId: number }) => {
     <>
       <Button variant="default" onClick={() => setIsOpen(true)}>
         <PlusIcon data-icon="inline-start" />
-        Add new plant
+        New Garden
       </Button>
 
       <FormDialog
         isOpen={isOpen}
         onOpenChange={setIsOpen}
-        title="Add new plant to garden"
-        submitText="Add plant"
+        submitText="Add garden"
         formAction={action}
         isPending={pending}
+        title="Add new garden"
         error={typeof state?.error === 'string' ? state.error : undefined}
       >
-        <BasePlantForm gardenId={gardenId} isPending={pending} errors={state?.error} />
+        <BaseGardenForm isPending={pending} errors={state?.error} />
       </FormDialog>
     </>
   );
 };
 
-export default CreatePlantForm;
+export default CreateGardenForm;

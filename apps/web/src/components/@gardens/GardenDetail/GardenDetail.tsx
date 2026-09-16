@@ -4,8 +4,7 @@ import { PlantsTable } from '@/components/@plants';
 import { Separator } from '@/components/ui';
 import { Garden } from '@/types/garden.types';
 import { Plant } from '@/types/plant.types';
-import DeleteGardenDialog from '../DeleteGardenDialog';
-import UpdateGardenForm from '../UpdateGardenForm';
+import { DeleteGardenDialog, UpdateGardenForm } from '../GardenForms';
 import GardenInfo from './GardenInfo';
 
 interface Props extends Garden {

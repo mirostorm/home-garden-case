@@ -1,26 +1,21 @@
 'use client';
 
-import { updateGarden } from '@/actions/garden.actions';
 import { useActionState, useState } from 'react';
-import { FormDialog } from '../@form';
+import { FormDialog } from '../../@form';
 
+import { updatePlant } from '@/actions/plant.actions';
 import { Button } from '@/components/ui';
-import { Garden } from '@/types/garden.types';
+import { Plant } from '@/types/plant.types';
 import { PencilIcon } from '@phosphor-icons/react';
-import BaseGardenForm from './BaseGardenForm';
+import BasePlantForm from './BasePlantForm';
 
-interface Props {
-  triggerLabel?: string;
-  garden: Garden;
-}
-
-const UpdateGardenForm = ({ triggerLabel, garden }: Props) => {
-  const { gardenId, gardenName } = garden;
+const UpdatePlantForm = (plant: Plant) => {
+  const { plantId, gardenId, plantName } = plant;
 
   const [isOpen, setIsOpen] = useState(false);
   const [state, action, pending] = useActionState(
     async (prevState: unknown, formData: FormData) => {
-      const res = await updateGarden(prevState, formData);
+      const res = await updatePlant(prevState, formData);
       if (res.success) setIsOpen(false);
       return res;
     },
@@ -29,27 +24,27 @@ const UpdateGardenForm = ({ triggerLabel, garden }: Props) => {
 
   return (
     <>
-      <Button variant="secondary" onClick={() => setIsOpen(true)}>
+      <Button variant="secondary" title="Edit plant" onClick={() => setIsOpen(true)}>
         <PencilIcon data-icon="inline-start" />
-        {triggerLabel}
       </Button>
 
       <FormDialog
         isOpen={isOpen}
         onOpenChange={setIsOpen}
-        formAction={action}
         title={
           <>
-            Edit garden: "<strong>{gardenName}</strong>"
+            Update plant: "<strong>{plantName}</strong>"
           </>
         }
-        submitText="Update garden"
+        submitText="Update plant"
+        formAction={action}
         isPending={pending}
         error={typeof state?.error === 'string' ? state.error : undefined}
       >
-        <BaseGardenForm
+        <BasePlantForm
           gardenId={gardenId}
-          garden={garden}
+          plantId={plantId}
+          plant={plant}
           isPending={pending}
           errors={state?.error}
         />
@@ -58,4 +53,4 @@ const UpdateGardenForm = ({ triggerLabel, garden }: Props) => {
   );
 };
 
-export default UpdateGardenForm;
+export default UpdatePlantForm;

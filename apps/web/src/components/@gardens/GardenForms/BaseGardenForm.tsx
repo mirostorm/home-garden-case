@@ -1,6 +1,6 @@
 'use client';
 
-import { FormInput, FormTextArea } from '../@form';
+import { FormInput, FormTextArea } from '../../@form';
 
 import { CreateGardenInput } from '@/types/garden.types';
 

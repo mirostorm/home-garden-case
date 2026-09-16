@@ -1,6 +1,6 @@
 'use client';
 
-import { FormInput, FormSelect } from '../@form';
+import { FormInput, FormSelect } from '../../@form';
 
 import { formatDate } from '@/lib/utils';
 import { CreatePlantInput, PlantType } from '@/types/plant.types';

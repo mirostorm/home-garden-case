@@ -7,8 +7,7 @@ import { Plant } from '@/types/plant.types';
 import { ArrowRightIcon } from '@phosphor-icons/react';
 import Link from 'next/link';
 import { Button } from '../../ui';
-import DeletePlantDialog from '../DeletePlantDialog';
-import UpdatePlantForm from '../UpdatePlantForm';
+import { DeletePlantDialog, UpdatePlantForm } from '../PlantForms';
 
 const PlantRow = (plant: Plant) => {
   const {

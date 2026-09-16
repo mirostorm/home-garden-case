@@ -11,7 +11,7 @@ import {
 } from '@/components/ui';
 
 import { Plant } from '@/types/plant.types';
-import CreatePlantForm from '../CreatePlantForm';
+import { CreatePlantForm } from '../PlantForms';
 import PlantRow from './PlantRow';
 
 interface Props {

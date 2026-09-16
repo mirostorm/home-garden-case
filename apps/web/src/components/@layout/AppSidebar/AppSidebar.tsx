@@ -5,7 +5,7 @@ import {
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
-  SidebarMenuItem
+  SidebarMenuItem,
 } from '@/components/ui';
 import { HouseIcon, PlantIcon, TreeIcon } from '@phosphor-icons/react';
 import Image from 'next/image';

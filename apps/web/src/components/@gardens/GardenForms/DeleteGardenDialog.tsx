@@ -1,49 +1,48 @@
 'use client';
 
-import { deletePlant } from '@/actions/plant.actions';
+import { deleteGarden } from '@/actions/garden.actions';
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-  Button,
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+    Button,
 } from '@/components/ui';
 import { TrashSimpleIcon } from '@phosphor-icons/react';
 import { useActionState } from 'react';
-import { FormInput } from '../@form';
+import { FormInput } from '../../@form';
 
 interface Props {
   gardenId: number;
-  plantId: number;
-  plantName: string;
+  gardenName: string;
   buttonLabel?: string;
 }
 
-const DeletePlantDialog = ({ gardenId, plantId, plantName, buttonLabel }: Props) => {
+const DeleteGardenDialog = ({ gardenId, gardenName, buttonLabel }: Props) => {
   const [_state, action, pending] = useActionState(
     async (previousState: unknown, formData: FormData) => {
-      return await deletePlant(previousState, formData);
+      return await deleteGarden(previousState, formData);
     },
     null,
   );
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger render={<Button variant="destructive" title="Remove plant" />}>
+      <AlertDialogTrigger render={<Button variant="destructive" title="Remove garden" />}>
         <TrashSimpleIcon data-icon="inline-start" />
         {buttonLabel}
       </AlertDialogTrigger>
 
       <AlertDialogContent className="min-w-[40svw] max-w-[80svw] max-h-[80svh] overflow-auto transition-all duration-300">
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you sure you want to delete this plant?</AlertDialogTitle>
+          <AlertDialogTitle>Are you sure you want to delete this garden?</AlertDialogTitle>
           <AlertDialogDescription>
-            Do you really want to delete "<strong>{plantName}</strong>"?
+            Do you really want to delete "<strong>{gardenName}</strong>"?
             <br />
             This action cannot be undone.
           </AlertDialogDescription>
@@ -55,9 +54,8 @@ const DeletePlantDialog = ({ gardenId, plantId, plantName, buttonLabel }: Props)
           </AlertDialogCancel>
           <form action={action}>
             <FormInput id="gardenId" required defaultValue={gardenId} hidden />
-            <FormInput id="plantId" required defaultValue={plantId} hidden />
             <AlertDialogAction type="submit" variant="destructive" disabled={pending}>
-              Remove plant
+              Remove garden
             </AlertDialogAction>
           </form>
         </AlertDialogFooter>
@@ -66,4 +64,4 @@ const DeletePlantDialog = ({ gardenId, plantId, plantName, buttonLabel }: Props)
   );
 };
 
-export default DeletePlantDialog;
+export default DeleteGardenDialog;
