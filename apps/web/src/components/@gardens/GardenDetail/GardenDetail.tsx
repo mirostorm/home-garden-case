@@ -1,11 +1,18 @@
 'use client';
 
+import { PlantsTable } from '@/components/@plants';
+import { Separator } from '@/components/ui';
 import { Garden } from '@/types/garden.types';
+import { Plant } from '@/types/plant.types';
 import DeleteGardenDialog from '../DeleteGardenDialog';
 import UpdateGardenForm from '../UpdateGardenForm';
 import GardenInfo from './GardenInfo';
 
-const GardenDetail = (garden: Garden) => {
+interface Props extends Garden {
+  plants: Plant[];
+}
+
+const GardenDetail = ({ plants, ...garden }: Props) => {
   const { gardenId, gardenName } = garden;
 
   return (
@@ -20,6 +27,10 @@ const GardenDetail = (garden: Garden) => {
       </div>
 
       <GardenInfo {...garden} />
+
+      <Separator />
+
+      <PlantsTable gardenId={gardenId} plants={plants} />
     </div>
   );
 };

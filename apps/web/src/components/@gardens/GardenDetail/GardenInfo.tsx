@@ -15,18 +15,18 @@ const GardenInfo = ({
   return (
     <>
       <div className="flex gap-4 w-full">
-        <DetailTextBox className="flex-1 max-w-1/2">
+        <DetailTextBox className="max-w-1/2">
           <span className="leading-4 text-sm italic">
             Created on: {new Date(createdAt).toLocaleDateString()}
           </span>
           <h1 className="font-heading text-7xl font-bold">{gardenName}</h1>
           {locationDescription && <p className="font-bold">{locationDescription}</p>}
         </DetailTextBox>
-        <DetailTextBox>
+        <DetailTextBox className="max-w-1/4">
           <h2 className="font-bold">Total surface area</h2>
           <p className="font-heading text-6xl font-bold text-gray-700">{totalSurfaceArea} m²</p>
         </DetailTextBox>
-        <DetailTextBox>
+        <DetailTextBox className="max-w-1/4">
           <h2 className="font-bold">Location</h2>
           {latitude && longitude ? (
             <div className="flex flex-col gap-2">
@@ -65,7 +65,7 @@ const DetailTextBox = ({ children, className }: PropsWithChildren<{ className?: 
   return (
     <div
       className={cn(
-        'flex bg-gray-100 text-gray-700 py-4 px-6 rounded-2xl w-fit flex-col gap-1',
+        'flex flex-1 bg-gray-100 text-gray-700 py-4 px-6 rounded-2xl w-fit flex-col gap-1',
         className,
       )}
     >
