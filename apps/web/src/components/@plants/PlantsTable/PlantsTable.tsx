@@ -11,6 +11,7 @@ import {
 } from '@/components/ui';
 
 import { Plant } from '@/types/plant.types';
+import CreatePlantForm from '../CreatePlantForm';
 import PlantRow from './PlantRow';
 
 interface Props {
@@ -25,6 +26,7 @@ const PlantsTable = ({ gardenId, plants, isLoading, error }: Props) => {
     <div className="flex w-full flex-col gap-2">
       <div className="flex items-center gap-2 justify-between">
         <h2 className="font-heading font-bold ">Plants in this garden</h2>
+        <CreatePlantForm gardenId={gardenId} />
       </div>
 
       <Table className="bg-gray-100 text-gray-700 p-4 rounded-2xl">
