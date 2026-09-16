@@ -63,12 +63,16 @@ const GardenInfo = ({
             <div className="flex flex-col gap-2">
               <div>
                 <h3 className="font-semibold">Latitude</h3>
-                <p className="font-heading text-4xl font-bold text-gray-700">{latitude}</p>
+                <p className="font-heading text-4xl font-bold text-gray-700">
+                  {latitude.toFixed(9)}
+                </p>
               </div>
 
               <div>
                 <h3 className="font-semibold">Longitude</h3>
-                <p className="font-heading text-4xl font-bold text-gray-700">{longitude}</p>
+                <p className="font-heading text-4xl font-bold text-gray-700">
+                  {longitude.toFixed(9)}
+                </p>
               </div>
 
               <div className="text-blue-600 font-medium hover:underline active:underline">
