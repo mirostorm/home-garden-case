@@ -1,9 +1,4 @@
-import {
-  Field,
-  FieldError,
-  FieldLabel,
-  Textarea
-} from '@/components/ui';
+import { Field, FieldDescription, FieldError, FieldLabel, Textarea } from '@/components/ui';
 import { cn } from 'cn';
 import { ComponentProps } from 'react';
 
@@ -11,6 +6,7 @@ interface Props extends ComponentProps<'textarea'> {
   id: string;
   label?: string;
   error?: string;
+  message?: string;
 }
 
 const FormInput = ({
@@ -21,6 +17,7 @@ const FormInput = ({
   rows = 3,
   disabled,
   error,
+  message,
   ...rest
 }: Props) => {
   return (
@@ -39,6 +36,7 @@ const FormInput = ({
         id={id}
       />
 
+      {message && <FieldDescription>{message}</FieldDescription>}
       {!!error && <FieldError>{error}</FieldError>}
     </Field>
   );

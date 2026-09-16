@@ -3,6 +3,17 @@
 import { CreatePlantInput, PlantType } from '@/types/plant.types';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { z } from 'zod';
+
+const plantValidationSchema = z.object({
+  plantName: z.string().min(1).max(40).trim(),
+  species: z.string().min(1).max(40).trim(),
+  plantType: z.enum(PlantType),
+  plantationDate: z.string().transform((value) => new Date(value).toISOString()),
+  surfaceAreaRequired: z.number().min(0),
+  idealHumidityLevel: z.number().min(0).max(100),
+  gardenId: z.number(),
+});
 
 /**
  * **Creates a new plant based on the provided form data.**
@@ -20,17 +31,33 @@ export async function createPlant(_prevState: unknown, formData: FormData) {
     gardenId: Number(formData.get('gardenId')),
   };
 
+  const validatedFields = plantValidationSchema.safeParse(data);
+  console.log({ validatedFields });
+  if (!validatedFields.success) {
+    return {
+      success: false,
+      error: validatedFields.error,
+      // error: validatedFields.error.flatten().fieldErrors,
+    };
+  }
+
   const response = await fetch('http://localhost:3000/plants', {
     method: 'POST',
     body: JSON.stringify(data),
     headers: { 'Content-Type': 'application/json', accept: 'application/json' },
   });
 
+  console.log({ response });
+
   if (response.ok) {
     revalidatePath('/plants');
     revalidatePath(`/gardens/${data.gardenId}`);
     redirect(`/gardens/${data.gardenId}`);
   }
+  return {
+    success: false,
+    error: 'Failed to create plant, please try again',
+  };
 }
 
 /**

@@ -18,6 +18,7 @@ interface Props {
   children: ReactNode;
   formAction: (formData: FormData) => void | Promise<void>;
   isPending?: boolean;
+  error?: string;
 }
 
 const FormDialog = ({
@@ -27,6 +28,7 @@ const FormDialog = ({
   children,
   formAction,
   isPending = false,
+  error,
 }: Props) => {
   return (
     <Dialog>
@@ -43,6 +45,7 @@ const FormDialog = ({
           {children}
 
           <DialogFooter>
+            {error && <span className="text-destructive font-semibold italic py-2">{error}</span>}
             <DialogClose
               render={
                 <Button variant="destructive" size="lg" disabled={isPending}>

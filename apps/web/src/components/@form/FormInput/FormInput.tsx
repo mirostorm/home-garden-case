@@ -1,5 +1,6 @@
 import {
   Field,
+  FieldDescription,
   FieldError,
   FieldLabel,
   InputGroup,
@@ -12,6 +13,7 @@ import { ComponentProps, ReactNode } from 'react';
 interface Props extends ComponentProps<'input'> {
   id: string;
   label?: string;
+  message?: string;
   endAdornment?: ReactNode;
   error?: string;
 }
@@ -19,6 +21,7 @@ interface Props extends ComponentProps<'input'> {
 const FormInput = ({
   label,
   id,
+  message,
   className,
   required,
   endAdornment,
@@ -38,7 +41,8 @@ const FormInput = ({
         {endAdornment && <InputGroupAddon align="inline-end">{endAdornment}</InputGroupAddon>}
       </InputGroup>
 
-      {!!error && <FieldError>{error}</FieldError>}
+      {message && <FieldDescription>{message}</FieldDescription>}
+      {error && <FieldError>{error}</FieldError>}
     </Field>
   );
 };
