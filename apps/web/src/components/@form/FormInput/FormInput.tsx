@@ -29,6 +29,7 @@ const FormInput = ({
       </div>
       <div className="flex items-center bg-gray-100 rounded-md">
         <input
+          {...rest}
           id={id}
           name={id}
           type={type}
@@ -37,7 +38,6 @@ const FormInput = ({
             className,
           )}
           required={required}
-          {...rest}
         />
         {endAdornment && <div className="mr-3">{endAdornment}</div>}
       </div>

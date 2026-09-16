@@ -10,6 +10,7 @@ import { Plant, PlantType } from '@/types/plant.types';
 import { PencilIcon } from '@phosphor-icons/react';
 
 const UpdatePlantForm = ({
+  plantId,
   gardenId,
   plantName,
   plantType,
@@ -18,12 +19,7 @@ const UpdatePlantForm = ({
   plantationDate,
   surfaceAreaRequired,
 }: Plant) => {
-  const [_state, action, pending] = useActionState(
-    async (previousState: unknown, formData: FormData) => {
-      return await updatePlant(previousState, formData);
-    },
-    null,
-  );
+  const [_state, action, pending] = useActionState(updatePlant, null);
 
   return (
     <FormDialog
@@ -41,6 +37,7 @@ const UpdatePlantForm = ({
         </Button>
       }
     >
+      <FormInput hidden id="plantId" defaultValue={plantId} required disabled={pending} />
       <FormInput hidden id="gardenId" defaultValue={gardenId} required disabled={pending} />
 
       <FormInput
@@ -48,6 +45,7 @@ const UpdatePlantForm = ({
         label="Plant name"
         placeholder="My new plant"
         required
+        max={40}
         defaultValue={plantName}
         disabled={pending}
       />

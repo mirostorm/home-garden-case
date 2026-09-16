@@ -8,12 +8,7 @@ import { Button } from '@/components/ui';
 import { PlusIcon } from '@phosphor-icons/react';
 
 const CreateGardenForm = () => {
-  const [_state, action, pending] = useActionState(
-    async (previousState: unknown, formData: FormData) => {
-      return await createGarden(previousState, formData);
-    },
-    null,
-  );
+  const [_state, action, pending] = useActionState(createGarden, null);
 
   return (
     <FormDialog

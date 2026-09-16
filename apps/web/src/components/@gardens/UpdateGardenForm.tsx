@@ -21,12 +21,7 @@ const UpdateGardenForm = ({
   latitude,
   longitude,
 }: Props) => {
-  const [_state, action, pending] = useActionState(
-    async (previousState: unknown, formData: FormData) => {
-      return await updateGarden(previousState, formData);
-    },
-    null,
-  );
+  const [_state, action, pending] = useActionState(updateGarden, null);
 
   return (
     <FormDialog

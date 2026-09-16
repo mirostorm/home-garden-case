@@ -1,27 +1,15 @@
 'use client';
 
-import { useActionState, useEffect, useRef } from 'react';
+import { useActionState } from 'react';
 import { FormDialog, FormInput, FormSelect } from '../@form';
 
 import { createPlant } from '@/actions/plant.actions';
 import { Button } from '@/components/ui';
 import { PlantType } from '@/types/plant.types';
-import { DialogRootActions } from '@base-ui/react';
 import { PlusIcon } from '@phosphor-icons/react';
 
 const CreatePlantForm = ({ gardenId }: { gardenId: number }) => {
-  const dialogRef = useRef<DialogRootActions | null>(null);
-
-  const [state, action, pending] = useActionState(
-    async (previousState: unknown, formData: FormData) => {
-      return await createPlant(previousState, formData);
-    },
-    null,
-  );
-
-  useEffect(() => {
-    if (!!state) dialogRef.current?.close();
-  }, [state]);
+  const [_state, action, pending] = useActionState(createPlant, null);
 
   return (
     <FormDialog
@@ -43,6 +31,7 @@ const CreatePlantForm = ({ gardenId }: { gardenId: number }) => {
         label="Plant name"
         placeholder="My new plant"
         required
+        maxLength={40}
         disabled={pending}
       />
 
