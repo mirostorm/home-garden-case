@@ -2,6 +2,7 @@
 
 import { CreatePlantInput, PlantType } from '@/types/plant.types';
 import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 
 /**
  * **Creates a new plant based on the provided form data.**
@@ -22,18 +23,14 @@ export async function createPlant(_prevState: unknown, formData: FormData) {
   const response = await fetch('http://localhost:3000/plants', {
     method: 'POST',
     body: JSON.stringify(data),
-    headers: {
-      'Content-Type': 'application/json',
-      accept: 'application/json',
-    },
+    headers: { 'Content-Type': 'application/json', accept: 'application/json' },
   });
 
   if (response.ok) {
     revalidatePath('/plants');
     revalidatePath(`/gardens/${data.gardenId}`);
-    return true;
+    redirect(`/gardens/${data.gardenId}`);
   }
-  return false;
 }
 
 /**
@@ -55,14 +52,14 @@ export async function updatePlant(_prevState: unknown, formData: FormData) {
 
   const response = await fetch(`http://localhost:3000/plants/${plantId}`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', accept: 'application/json' },
     body: JSON.stringify(data),
   });
 
   if (response.ok) {
     revalidatePath('/plants');
     revalidatePath(`/gardens/${data.gardenId}`);
-    return true;
+    redirect(`/gardens/${data.gardenId}`);
   }
   return false;
 }

@@ -2,6 +2,7 @@
 
 import { CreateGardenInput } from '@/types/garden.types';
 import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 
 /**
  * **Creates a new garden based on the provided form data.**
@@ -20,35 +21,13 @@ export async function createGarden(_prevState: unknown, formData: FormData) {
   const response = await fetch('http://localhost:3000/gardens', {
     method: 'POST',
     body: JSON.stringify(data),
+    headers: { 'Content-Type': 'application/json' },
   });
 
   if (response.ok) {
     revalidatePath('/gardens');
-    return true;
+    redirect('/gardens');
   }
-  return false;
-}
-
-/**
- * **Deletes a garden based on the provided form data.**
- * @param formData - The form data containing the garden ID.
- * @returns A promise that resolves when the garden is deleted.
- */
-export async function deleteGarden(_prevState: unknown, formData: FormData) {
-  const gardenId = formData.get('gardenId');
-
-  console.log({ gardenId });
-
-  const response = await fetch(`http://localhost:3000/gardens/${gardenId}`, {
-    method: 'DELETE',
-  });
-
-  if (response.ok) {
-    revalidatePath('/gardens');
-    revalidatePath(`/gardens/${gardenId}`);
-    return true;
-  }
-  return false;
 }
 
 /**
@@ -78,4 +57,23 @@ export async function updateGarden(prevState: unknown, formData: FormData) {
     return true;
   }
   return false;
+}
+
+/**
+ * **Deletes a garden based on the provided form data.**
+ * @param formData - The form data containing the garden ID.
+ * @returns A promise that resolves when the garden is deleted.
+ */
+export async function deleteGarden(_prevState: unknown, formData: FormData) {
+  const gardenId = formData.get('gardenId');
+
+  const response = await fetch(`http://localhost:3000/gardens/${gardenId}`, {
+    method: 'DELETE',
+  });
+
+  if (response.ok) {
+    revalidatePath('/gardens');
+    revalidatePath(`/gardens/${gardenId}`);
+    redirect(`/gardens`);
+  }
 }
