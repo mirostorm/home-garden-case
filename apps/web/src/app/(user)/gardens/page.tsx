@@ -13,7 +13,8 @@ const GardensPage = async () => {
 
   return (
     <div className="max-w-full overflow-x-auto">
-      <div className="flex items-center justify-end mb-6">
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="font-heading text-2xl text-green-900 font-bold text-center">Your Gardens</h1>
         <CreateGardenForm />
       </div>
       <Suspense fallback={<div>Loading...</div>}>

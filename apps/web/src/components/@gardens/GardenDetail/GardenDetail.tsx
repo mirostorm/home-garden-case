@@ -1,9 +1,11 @@
 'use client';
 
 import { PlantsTable } from '@/components/@plants';
-import { Separator } from '@/components/ui';
+import { Button, Separator } from '@/components/ui';
 import { Garden } from '@/types/garden.types';
 import { Plant } from '@/types/plant.types';
+import { ArrowLeftIcon } from '@phosphor-icons/react';
+import Link from 'next/link';
 import { DeleteGardenDialog, UpdateGardenForm } from '../GardenForms';
 import GardenInfo from './GardenInfo';
 
@@ -20,13 +22,21 @@ const GardenDetail = ({ plants, ...garden }: Props) => {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex gap-2">
-        <UpdateGardenForm triggerLabel="Edit garden" garden={garden} />
-        <DeleteGardenDialog
-          gardenId={gardenId}
-          gardenName={gardenName}
-          buttonLabel="Remove garden"
-        />
+      <div className="flex gap-2 justify-between">
+        <Link href="/gardens">
+          <Button variant="link">
+            <ArrowLeftIcon data-icon="inline-start" />
+            Back to Gardens
+          </Button>
+        </Link>
+        <div className="flex gap-2 justify-end">
+          <UpdateGardenForm triggerLabel="Edit garden" garden={garden} />
+          <DeleteGardenDialog
+            gardenId={gardenId}
+            gardenName={gardenName}
+            buttonLabel="Remove garden"
+          />
+        </div>
       </div>
 
       <GardenInfo

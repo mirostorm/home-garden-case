@@ -1,7 +1,6 @@
 'use client';
 
 import { Garden } from '@/types/garden.types';
-import { MapPinIcon } from '@phosphor-icons/react';
 import DetailTextBox from './DetailTextBox';
 
 interface Props extends Garden {
@@ -100,31 +99,31 @@ const GardenInfo = ({
           <DetailTextBox className="col-span-2">
             <h2 className="font-bold">Location</h2>
             {latitude && longitude ? (
-              <div className="flex flex-col gap-2">
-                <div>
-                  <h3 className="font-semibold">Latitude</h3>
-                  <p className="font-heading text-4xl font-bold text-gray-700">
-                    {latitude.toFixed(9)}
-                  </p>
-                </div>
+              <div className="flex gap-4 w-full">
+                <div className="flex flex-col h-full gap-2">
+                  <div>
+                    <h3 className="font-semibold">Latitude</h3>
+                    <p className="font-heading text-4xl font-bold text-gray-700">
+                      {latitude.toFixed(9)}
+                    </p>
+                  </div>
 
-                <div>
-                  <h3 className="font-semibold">Longitude</h3>
-                  <p className="font-heading text-4xl font-bold text-gray-700">
-                    {longitude.toFixed(9)}
-                  </p>
+                  <div>
+                    <h3 className="font-semibold">Longitude</h3>
+                    <p className="font-heading text-4xl font-bold text-gray-700">
+                      {longitude.toFixed(9)}
+                    </p>
+                  </div>
                 </div>
-
-                <div className="text-blue-600 font-medium hover:underline active:underline">
-                  <a
-                    href={`https://www.google.com/maps/@${longitude},${latitude},10z`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="flex items-center gap-1"
+                <div className="w-full overflow-hidden rounded-lg bg-gray-200 shadow-md">
+                  <iframe
+                    width="100%"
+                    height="200"
+                    allowFullScreen
+                    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBVizdQeh3udy11xDc5Ao2YStR2gLc-rfc&amp;q=51.243543500%2C%204.123450000&amp;maptype=roadmap&amp;zoom=13"
                   >
-                    <MapPinIcon className="pt-0.5" />
-                    <span>View on Google Maps</span>
-                  </a>
+                    <a href="https://www.maps.ie/world-time-zone-map/">time zone</a>
+                  </iframe>
                 </div>
               </div>
             ) : (
