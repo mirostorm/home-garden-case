@@ -11,6 +11,9 @@ import {
 } from '@/components/ui/table';
 
 import { Garden } from '@/types/garden.types';
+import { ArrowRightIcon } from '@phosphor-icons/react';
+import Link from 'next/link';
+import { Button } from '../ui';
 import DeleteGardenDialog from './DeleteGardenDialog';
 import UpdateGardenForm from './UpdateGardenForm';
 
@@ -58,6 +61,11 @@ const GardensTable = ({ gardens, isLoading, error }: Props) => {
               <TableCell>{latitude && longitude && `${latitude}, ${longitude}`}</TableCell>
               <TableCell>{updatedAt}</TableCell>
               <TableCell className="flex items-center gap-2">
+                <Link href={`/gardens/${gardenId}`}>
+                  <Button size="icon" variant="secondary" title={`View ${gardenName}`}>
+                    <ArrowRightIcon />
+                  </Button>
+                </Link>
                 <UpdateGardenForm {...garden} />
                 <DeleteGardenDialog gardenId={gardenId} gardenName={gardenName} />
               </TableCell>
