@@ -1,3 +1,11 @@
+import {
+  Field,
+  FieldError,
+  FieldLabel,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from '@/components/ui';
 import { cn } from 'cn';
 import { ComponentProps, ReactNode } from 'react';
 
@@ -5,43 +13,33 @@ interface Props extends ComponentProps<'input'> {
   id: string;
   label?: string;
   endAdornment?: ReactNode;
+  error?: string;
 }
 
 const FormInput = ({
   label,
   id,
-  type = 'text',
   className,
   required,
   endAdornment,
   hidden,
+  disabled,
+  error,
   ...rest
 }: Props) => {
   return (
-    <div className={hidden ? 'hidden' : 'flex flex-col gap-1.5'}>
-      <div className="flex items-center justify-between">
-        <label htmlFor={id} className="font-medium text-heading">
-          {label}
-        </label>
-        <span className={cn('font-medium text-sm', required ? 'text-red-700' : 'text-gray-700/60')}>
-          {required ? 'required' : 'optional'}
-        </span>
-      </div>
-      <div className="flex items-center bg-gray-100 rounded-md">
-        <input
-          {...rest}
-          id={id}
-          name={id}
-          type={type}
-          className={cn(
-            'flex-1 bg-transparent rounded-md focus:outline-2 focus:outline-green-700/50 w-full px-3 py-2.5 font-medium',
-            className,
-          )}
-          required={required}
-        />
-        {endAdornment && <div className="mr-3">{endAdornment}</div>}
-      </div>
-    </div>
+    <Field className={hidden ? 'hidden' : ''} data-invalid={!!error} data-disabled={disabled}>
+      <FieldLabel htmlFor={id}>
+        {label} {required && <span className="text-destructive">*</span>}
+      </FieldLabel>
+
+      <InputGroup {...rest} aria-invalid={!!error} className={cn('bg-gray-100', className)}>
+        <InputGroupInput {...rest} name={id} aria-invalid={!!error} required={required} id={id} />
+        {endAdornment && <InputGroupAddon align="inline-end">{endAdornment}</InputGroupAddon>}
+      </InputGroup>
+
+      {!!error && <FieldError>{error}</FieldError>}
+    </Field>
   );
 };
 

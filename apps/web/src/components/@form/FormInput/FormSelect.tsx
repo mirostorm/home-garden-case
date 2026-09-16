@@ -35,7 +35,7 @@ const FormSelect = ({ id, label, error, options, required, disabled, ...props }:
         disabled={disabled}
         defaultValue={String(props.defaultValue ?? options[0].value)}
       >
-        <SelectTrigger aria-invalid={!!error} className="w-full py-5 bg-gray-100">
+        <SelectTrigger aria-invalid={!!error} className="w-full bg-gray-100">
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
