@@ -11,6 +11,8 @@ import {
 } from '@/components/ui/table';
 
 import { Garden } from '@/types/garden.types';
+import DeleteGardenDialog from './DeleteGardenDialog';
+import UpdateGardenForm from './UpdateGardenForm';
 
 interface Props {
   gardens: Garden[];
@@ -37,19 +39,17 @@ const GardensTable = ({ gardens, isLoading, error }: Props) => {
       </TableHeader>
 
       <TableBody>
-        {gardens.map(
-          (
-            {
-              gardenId,
-              gardenName,
-              totalSurfaceArea,
-              locationDescription,
-              latitude,
-              longitude,
-              updatedAt,
-            },
-            index,
-          ) => (
+        {gardens.map((garden, index) => {
+          const {
+            gardenId,
+            gardenName,
+            totalSurfaceArea,
+            locationDescription,
+            latitude,
+            longitude,
+            updatedAt,
+          } = garden;
+          return (
             <TableRow key={gardenId}>
               <TableCell>{index + 1}</TableCell>
               <TableCell className=" text-lg font-medium">{gardenName}</TableCell>
@@ -57,10 +57,13 @@ const GardensTable = ({ gardens, isLoading, error }: Props) => {
               <TableCell>{totalSurfaceArea} m²</TableCell>
               <TableCell>{latitude && longitude && `${latitude}, ${longitude}`}</TableCell>
               <TableCell>{updatedAt}</TableCell>
-              <TableCell>@TODO</TableCell>
+              <TableCell className="flex items-center gap-2">
+                <UpdateGardenForm {...garden} />
+                <DeleteGardenDialog gardenId={gardenId} gardenName={gardenName} />
+              </TableCell>
             </TableRow>
-          ),
-        )}
+          );
+        })}
       </TableBody>
     </Table>
   );

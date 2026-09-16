@@ -3,7 +3,7 @@ import { ComponentProps, ReactNode } from 'react';
 
 interface Props extends ComponentProps<'input'> {
   id: string;
-  label: string;
+  label?: string;
   endAdornment?: ReactNode;
 }
 
@@ -14,10 +14,11 @@ const FormInput = ({
   className,
   required,
   endAdornment,
+  hidden,
   ...rest
 }: Props) => {
   return (
-    <div className="flex flex-col gap-1.5">
+    <div className={hidden ? 'hidden' : 'flex flex-col gap-1.5'}>
       <div className="flex items-center justify-between">
         <label htmlFor={id} className="font-medium text-heading">
           {label}

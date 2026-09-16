@@ -18,8 +18,7 @@ const getGardens = async () => {
 };
 
 const GardensPage = async () => {
-  const gardensData = getGardens();
-  const gardens = await gardensData;
+  const gardens = await getGardens();
 
   return (
     <div className="max-w-full overflow-x-auto">
