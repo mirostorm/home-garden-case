@@ -8,10 +8,11 @@ import { DeletePlantDialog, UpdatePlantForm } from '../PlantForms';
 
 interface Props {
   availableSurfaceArea: number;
+  targetHumidityLevel?: number;
   plant: Plant;
 }
 
-const PlantRow = ({ availableSurfaceArea, plant }: Props) => {
+const PlantRow = ({ availableSurfaceArea, targetHumidityLevel, plant }: Props) => {
   const {
     gardenId,
     plantId,
@@ -24,6 +25,9 @@ const PlantRow = ({ availableSurfaceArea, plant }: Props) => {
     updatedAt,
   } = plant;
 
+  const humidityDifference =
+    targetHumidityLevel && idealHumidityLevel && Math.abs(targetHumidityLevel - idealHumidityLevel);
+
   return (
     <TableRow key={plantId} className="font-medium">
       <TableCell className="text-lg font-medium max-w-40 overflow-hidden text-ellipsis">
@@ -32,7 +36,15 @@ const PlantRow = ({ availableSurfaceArea, plant }: Props) => {
       <TableCell className="capitalize">{plantType}</TableCell>
       <TableCell className="max-w-40 overflow-hidden text-ellipsis">{species}</TableCell>
       <TableCell>{surfaceAreaRequired} m²</TableCell>
-      <TableCell>{idealHumidityLevel}%</TableCell>
+      <TableCell>
+        {idealHumidityLevel}%
+        {targetHumidityLevel && targetHumidityLevel !== idealHumidityLevel && (
+          <span className="italic text-gray-500 ml-1">
+            ({humidityDifference}% too&nbsp;
+            {targetHumidityLevel > idealHumidityLevel ? 'dry' : 'humid'})
+          </span>
+        )}
+      </TableCell>
       <TableCell>{formatDate(new Date(plantationDate))}</TableCell>
       <TableCell className="font-normal">{updatedAt}</TableCell>
       <TableCell className="flex items-center gap-2">

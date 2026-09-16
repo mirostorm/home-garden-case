@@ -12,7 +12,7 @@ interface Props extends Garden {
 }
 
 const GardenDetail = ({ plants, ...garden }: Props) => {
-  const { gardenId, gardenName } = garden;
+  const { gardenId, gardenName, targetHumidityLevel } = garden;
   const occupiedSurfaceArea = plants.reduce((acc, plant) => acc + plant.surfaceAreaRequired, 0);
   const averageRequiredHumidity = !!plants.length
     ? plants.reduce((acc, plant) => acc + plant.idealHumidityLevel, 0) / plants.length
@@ -41,6 +41,7 @@ const GardenDetail = ({ plants, ...garden }: Props) => {
         gardenId={gardenId}
         plants={plants}
         availableSurfaceArea={garden.totalSurfaceArea - occupiedSurfaceArea}
+        targetHumidityLevel={targetHumidityLevel}
       />
     </div>
   );

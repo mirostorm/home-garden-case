@@ -20,9 +20,17 @@ interface Props {
   isLoading?: boolean;
   error?: string;
   availableSurfaceArea: number;
+  targetHumidityLevel?: number;
 }
 
-const PlantsTable = ({ gardenId, plants, isLoading, error, availableSurfaceArea }: Props) => {
+const PlantsTable = ({
+  gardenId,
+  plants,
+  isLoading,
+  error,
+  availableSurfaceArea,
+  targetHumidityLevel,
+}: Props) => {
   return (
     <div className="flex w-full flex-col gap-2">
       <div className="flex items-center gap-2 justify-between">
@@ -57,6 +65,7 @@ const PlantsTable = ({ gardenId, plants, isLoading, error, availableSurfaceArea 
               <PlantRow
                 plant={plant}
                 availableSurfaceArea={availableSurfaceArea}
+                targetHumidityLevel={targetHumidityLevel}
                 key={plant.plantId}
               />
             ))
