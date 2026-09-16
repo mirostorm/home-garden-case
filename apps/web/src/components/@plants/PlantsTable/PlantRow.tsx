@@ -22,9 +22,11 @@ const PlantRow = (plant: Plant) => {
   } = plant;
   return (
     <TableRow key={plantId} className="font-medium">
-      <TableCell className="text-lg font-medium">{plantName}</TableCell>
+      <TableCell className="text-lg font-medium max-w-40 overflow-hidden text-ellipsis">
+        {plantName}
+      </TableCell>
       <TableCell className="capitalize">{plantType}</TableCell>
-      <TableCell>{species}</TableCell>
+      <TableCell className="max-w-40 overflow-hidden text-ellipsis">{species}</TableCell>
       <TableCell>{surfaceAreaRequired} m²</TableCell>
       <TableCell>{idealHumidityLevel}%</TableCell>
       <TableCell>{formatDate(new Date(plantationDate))}</TableCell>

@@ -29,7 +29,6 @@ const GardensTable = ({ gardens, isLoading, error }: Props) => {
       <TableCaption>A list of your gardens.</TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead>#</TableHead>
           <TableHead>Name</TableHead>
           <TableHead>Description</TableHead>
           <TableHead>Total Surface Area</TableHead>
@@ -54,9 +53,18 @@ const GardensTable = ({ gardens, isLoading, error }: Props) => {
           } = garden;
           return (
             <TableRow key={gardenId}>
-              <TableCell>{index + 1}</TableCell>
-              <TableCell className=" text-lg font-medium">{gardenName}</TableCell>
-              <TableCell>{locationDescription ?? '-'}</TableCell>
+              <TableCell
+                title={gardenName}
+                className="max-w-40 text-lg font-medium overflow-hidden text-ellipsis"
+              >
+                {gardenName}
+              </TableCell>
+              <TableCell
+                className="max-w-48 text-ellipsis overflow-hidden"
+                title={locationDescription}
+              >
+                {locationDescription ?? '-'}
+              </TableCell>
               <TableCell>{totalSurfaceArea} m²</TableCell>
               <TableCell>{latitude && longitude && `${latitude}, ${longitude}`}</TableCell>
               <TableCell>{updatedAt}</TableCell>

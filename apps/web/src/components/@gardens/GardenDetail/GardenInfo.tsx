@@ -19,12 +19,21 @@ const GardenInfo = ({
           <span className="leading-4 text-sm italic">
             Created on: {new Date(createdAt).toLocaleDateString()}
           </span>
-          <h1 className="font-heading text-7xl font-bold">{gardenName}</h1>
-          {locationDescription && <p className="font-bold">{locationDescription}</p>}
+          <h1
+            className="font-heading text-6xl font-bold line-clamp-2 leading-16 pb-2"
+            title={gardenName}
+          >
+            {gardenName}
+          </h1>
+          {locationDescription && (
+            <p className="font-bold line-clamp-4" title={locationDescription}>
+              {locationDescription}
+            </p>
+          )}
         </DetailTextBox>
         <DetailTextBox className="max-w-1/4">
           <h2 className="font-bold">Total surface area</h2>
-          <p className="font-heading text-6xl font-bold text-gray-700">{totalSurfaceArea} m²</p>
+          <p className="font-heading text-4xl font-bold text-gray-700">{totalSurfaceArea} m²</p>
         </DetailTextBox>
         <DetailTextBox className="max-w-1/4">
           <h2 className="font-bold">Location</h2>
@@ -32,11 +41,11 @@ const GardenInfo = ({
             <div className="flex flex-col gap-2">
               <div className="flex gap-6">
                 <div>
-                  <p className="font-heading text-6xl font-bold text-gray-700">{latitude},</p>
+                  <p className="font-heading text-4xl font-bold text-gray-700">{latitude},</p>
                   <h3 className="font-semibold">Latitude</h3>
                 </div>
                 <div>
-                  <p className="font-heading text-6xl font-bold text-gray-700">{longitude}</p>
+                  <p className="font-heading text-4xl font-bold text-gray-700">{longitude}</p>
                   <h3 className="font-semibold">Longitude</h3>
                 </div>
               </div>
@@ -51,7 +60,7 @@ const GardenInfo = ({
               </div>
             </div>
           ) : (
-            <p className="font-heading text-6xl font-bold text-gray-700">Unknown</p>
+            <p className="font-heading text-4xl font-bold text-gray-700">Unknown</p>
           )}
         </DetailTextBox>
       </div>
