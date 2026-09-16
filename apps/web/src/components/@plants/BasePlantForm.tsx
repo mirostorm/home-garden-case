@@ -22,12 +22,21 @@ interface Props {
   /** `plant` should only be passed when updating a plant */
   plant?: CreatePlantInput;
   isPending?: boolean;
+  errors?: Record<string, { errors: string[] }> | string | null;
 }
 
-const BasePlantForm = ({ isPending, gardenId, plantId, plant = DEFAULT_PLANT }: Props) => {
+const BasePlantForm = ({ isPending, gardenId, plantId, plant = DEFAULT_PLANT, errors }: Props) => {
   // gardenId is separated as we don't pass the plant prop when we need a form to create a new plant
   const { plantName, plantType, species, idealHumidityLevel, plantationDate, surfaceAreaRequired } =
     plant;
+
+  const errorsArray =
+    typeof errors === 'string' || !errors
+      ? []
+      : Object.entries(errors).map(([key, value]) => ({ key, value: value.errors[0] }));
+
+  console.log({ errorsArray });
+  const getError = (key: string) => errorsArray.find((error) => error.key === key)?.value;
 
   return (
     <>
@@ -43,7 +52,9 @@ const BasePlantForm = ({ isPending, gardenId, plantId, plant = DEFAULT_PLANT }: 
         required
         defaultValue={plantName}
         disabled={isPending}
+        minLength={1}
         maxLength={40}
+        error={getError('plantName')}
         message="The plant name must be between 1 and 40 characters long."
       />
 
@@ -55,6 +66,7 @@ const BasePlantForm = ({ isPending, gardenId, plantId, plant = DEFAULT_PLANT }: 
           required
           defaultValue={plantType}
           disabled={isPending}
+          error={getError('plantType')}
         />
 
         <FormInput
@@ -64,6 +76,9 @@ const BasePlantForm = ({ isPending, gardenId, plantId, plant = DEFAULT_PLANT }: 
           required
           defaultValue={species}
           disabled={isPending}
+          maxLength={20}
+          error={getError('species')}
+          message="Max. 20 characters"
         />
 
         <FormInput
@@ -76,6 +91,7 @@ const BasePlantForm = ({ isPending, gardenId, plantId, plant = DEFAULT_PLANT }: 
           required
           defaultValue={surfaceAreaRequired}
           disabled={isPending}
+          error={getError('surfaceAreaRequired')}
         />
         <FormInput
           id="idealHumidityLevel"
@@ -88,6 +104,7 @@ const BasePlantForm = ({ isPending, gardenId, plantId, plant = DEFAULT_PLANT }: 
           required
           defaultValue={idealHumidityLevel}
           disabled={isPending}
+          error={getError('idealHumidityLevel')}
         />
       </div>
       <FormInput
@@ -97,6 +114,7 @@ const BasePlantForm = ({ isPending, gardenId, plantId, plant = DEFAULT_PLANT }: 
         required
         value={formatDate(new Date(plantationDate))}
         disabled={isPending}
+        error={getError('plantationDate')}
       />
     </>
   );

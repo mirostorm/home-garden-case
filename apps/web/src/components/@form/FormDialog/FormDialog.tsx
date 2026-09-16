@@ -6,15 +6,15 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
   Spinner,
 } from '@/components/ui';
-import { ReactNode } from 'react';
+import { ReactNode, startTransition, SubmitEvent } from 'react';
 
 interface Props {
+  isOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
   title: ReactNode;
   submitText?: string;
-  trigger: ReactNode;
   children: ReactNode;
   formAction: (formData: FormData) => void | Promise<void>;
   isPending?: boolean;
@@ -22,18 +22,23 @@ interface Props {
 }
 
 const FormDialog = ({
+  isOpen,
+  onOpenChange,
   title,
   submitText = 'Submit',
-  trigger,
   children,
   formAction,
   isPending = false,
   error,
 }: Props) => {
-  return (
-    <Dialog>
-      <DialogTrigger>{trigger}</DialogTrigger>
+  const handleSubmit = (event: SubmitEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    startTransition(() => formAction(formData));
+  };
 
+  return (
+    <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="min-w-[40svw] max-w-[80svw] max-h-[80svh] overflow-auto transition-all duration-300">
         <DialogHeader>
           <DialogTitle>
@@ -41,7 +46,11 @@ const FormDialog = ({
           </DialogTitle>
         </DialogHeader>
 
-        <form action={formAction} className="flex flex-col gap-4">
+        <form
+          // action={formAction}
+          onSubmit={handleSubmit}
+          className="flex flex-col gap-4"
+        >
           {children}
 
           <DialogFooter>

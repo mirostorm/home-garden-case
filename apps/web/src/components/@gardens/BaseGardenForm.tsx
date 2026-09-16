@@ -18,10 +18,19 @@ interface Props {
   /** `garden` should only be passed when updating a garden */
   garden?: CreateGardenInput;
   isPending?: boolean;
+  errors?: Record<string, { errors: string[] }> | string | null;
 }
 
-const BaseGardenForm = ({ gardenId, garden = DEFAULT_GARDEN, isPending }: Props) => {
+const BaseGardenForm = ({ gardenId, garden = DEFAULT_GARDEN, isPending, errors }: Props) => {
   const { gardenName, totalSurfaceArea, locationDescription, latitude, longitude } = garden;
+
+  const errorsArray =
+    typeof errors === 'string' || !errors
+      ? []
+      : Object.entries(errors).map(([key, value]) => ({ key, value: value.errors[0] }));
+
+  const getError = (key: string) => errorsArray.find((error) => error.key === key)?.value;
+
   return (
     <>
       {gardenId && (
@@ -35,6 +44,7 @@ const BaseGardenForm = ({ gardenId, garden = DEFAULT_GARDEN, isPending }: Props)
         defaultValue={gardenName}
         disabled={isPending}
         maxLength={40}
+        error={getError('gardenName')}
         message="The garden name must be between 1 and 40 characters long."
       />
       <FormInput
@@ -46,6 +56,7 @@ const BaseGardenForm = ({ gardenId, garden = DEFAULT_GARDEN, isPending }: Props)
         endAdornment={<span className="font-semibold ml-3">m²</span>}
         required
         disabled={isPending}
+        error={getError('totalSurfaceArea')}
         defaultValue={totalSurfaceArea}
       />
       <FormTextArea
@@ -55,6 +66,7 @@ const BaseGardenForm = ({ gardenId, garden = DEFAULT_GARDEN, isPending }: Props)
         disabled={isPending}
         defaultValue={locationDescription}
         maxLength={100}
+        error={getError('locationDescription')}
         message="The garden description can be maximum 100 characters long."
       />
 
@@ -63,21 +75,25 @@ const BaseGardenForm = ({ gardenId, garden = DEFAULT_GARDEN, isPending }: Props)
           id="latitude"
           label="Latitude"
           type="number"
-          placeholder="0"
-          min={-90}
-          max={90}
+          placeholder="0.0000"
+          step="0.000000001"
+          min={-90.000000001}
+          max={90.000000001}
           disabled={isPending}
           defaultValue={latitude}
+          error={getError('latitude')}
         />
         <FormInput
           id="longitude"
           label="Longitude"
           type="number"
-          placeholder="0"
-          min={-180}
-          max={180}
+          placeholder="0.0000"
+          step="0.000000001"
+          min={-180.000000001}
+          max={180.000000001}
           disabled={isPending}
           defaultValue={longitude}
+          error={getError('longitude')}
         />
       </div>
     </>

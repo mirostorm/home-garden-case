@@ -1,7 +1,7 @@
 'use client';
 
 import { updateGarden } from '@/actions/garden.actions';
-import { useActionState } from 'react';
+import { useActionState, useState } from 'react';
 import { FormDialog } from '../@form';
 
 import { Button } from '@/components/ui';
@@ -16,27 +16,45 @@ interface Props {
 
 const UpdateGardenForm = ({ triggerLabel, garden }: Props) => {
   const { gardenId, gardenName } = garden;
-  const [_state, action, pending] = useActionState(updateGarden, null);
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [state, action, pending] = useActionState(
+    async (prevState: unknown, formData: FormData) => {
+      const res = await updateGarden(prevState, formData);
+      if (res.success) setIsOpen(false);
+      return res;
+    },
+    null,
+  );
 
   return (
-    <FormDialog
-      formAction={action}
-      title={
-        <>
-          Edit garden: "<strong>{gardenName}</strong>"
-        </>
-      }
-      submitText="Update garden"
-      isPending={pending}
-      trigger={
-        <Button variant="secondary">
-          <PencilIcon data-icon="inline-start" />
-          {triggerLabel}
-        </Button>
-      }
-    >
-      <BaseGardenForm gardenId={gardenId} garden={garden} isPending={pending} />
-    </FormDialog>
+    <>
+      <Button variant="secondary" onClick={() => setIsOpen(true)}>
+        <PencilIcon data-icon="inline-start" />
+        {triggerLabel}
+      </Button>
+
+      <FormDialog
+        isOpen={isOpen}
+        onOpenChange={setIsOpen}
+        formAction={action}
+        title={
+          <>
+            Edit garden: "<strong>{gardenName}</strong>"
+          </>
+        }
+        submitText="Update garden"
+        isPending={pending}
+        error={typeof state?.error === 'string' ? state.error : undefined}
+      >
+        <BaseGardenForm
+          gardenId={gardenId}
+          garden={garden}
+          isPending={pending}
+          errors={state?.error}
+        />
+      </FormDialog>
+    </>
   );
 };
 

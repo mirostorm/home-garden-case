@@ -2,7 +2,6 @@
 
 import { CreatePlantInput, PlantType } from '@/types/plant.types';
 import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
 const plantValidationSchema = z.object({
@@ -15,13 +14,9 @@ const plantValidationSchema = z.object({
   gardenId: z.number(),
 });
 
-/**
- * **Creates a new plant based on the provided form data.**
- * @param formData - The form data containing the new plant details.
- * @returns A promise that resolves when the plant is created.
- */
-export async function createPlant(_prevState: unknown, formData: FormData) {
-  const data: CreatePlantInput = {
+/** Parses the plant data from the form data. */
+const getPlantData = (formData: FormData): CreatePlantInput => {
+  return {
     plantName: formData.get('plantName') as string,
     species: formData.get('species') as string,
     plantType: formData.get('plantType') as PlantType,
@@ -30,30 +25,39 @@ export async function createPlant(_prevState: unknown, formData: FormData) {
     idealHumidityLevel: Number(formData.get('idealHumidityLevel')),
     gardenId: Number(formData.get('gardenId')),
   };
+};
+
+/**
+ * **Creates a new plant based on the provided form data.**
+ * @param formData - The form data containing the new plant details.
+ * @returns A promise that resolves when the plant is created.
+ */
+export async function createPlant(_prevState: unknown, formData: FormData) {
+  const data = getPlantData(formData);
 
   const validatedFields = plantValidationSchema.safeParse(data);
-  console.log({ validatedFields });
   if (!validatedFields.success) {
     return {
       success: false,
-      error: validatedFields.error,
-      // error: validatedFields.error.flatten().fieldErrors,
+      error: z.treeifyError(validatedFields.error).properties,
     };
   }
 
   const response = await fetch('http://localhost:3000/plants', {
     method: 'POST',
-    body: JSON.stringify(data),
-    headers: { 'Content-Type': 'application/json', accept: 'application/json' },
+    body: JSON.stringify(validatedFields.data),
+    headers: { 'Content-Type': 'application/json' },
   });
-
-  console.log({ response });
 
   if (response.ok) {
     revalidatePath('/plants');
     revalidatePath(`/gardens/${data.gardenId}`);
-    redirect(`/gardens/${data.gardenId}`);
+    return {
+      success: true,
+      error: null,
+    };
   }
+
   return {
     success: false,
     error: 'Failed to create plant, please try again',
@@ -67,28 +71,35 @@ export async function createPlant(_prevState: unknown, formData: FormData) {
  */
 export async function updatePlant(_prevState: unknown, formData: FormData) {
   const plantId = formData.get('plantId');
-  const data: CreatePlantInput = {
-    plantName: formData.get('plantName') as string,
-    species: formData.get('species') as string,
-    plantType: formData.get('plantType') as PlantType,
-    plantationDate: new Date(formData.get('plantationDate') as string).toISOString(),
-    surfaceAreaRequired: Number(formData.get('surfaceAreaRequired')),
-    idealHumidityLevel: Number(formData.get('idealHumidityLevel')),
-    gardenId: Number(formData.get('gardenId')),
-  };
+  const data = getPlantData(formData);
+
+  const validatedFields = plantValidationSchema.safeParse(data);
+  if (!validatedFields.success) {
+    return {
+      success: false,
+      error: z.treeifyError(validatedFields.error).properties,
+    };
+  }
 
   const response = await fetch(`http://localhost:3000/plants/${plantId}`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json', accept: 'application/json' },
-    body: JSON.stringify(data),
+    body: JSON.stringify(validatedFields.data),
+    headers: { 'Content-Type': 'application/json' },
   });
 
   if (response.ok) {
     revalidatePath('/plants');
     revalidatePath(`/gardens/${data.gardenId}`);
-    redirect(`/gardens/${data.gardenId}`);
+    return {
+      success: true,
+      error: null,
+    };
   }
-  return false;
+
+  return {
+    success: false,
+    error: 'Failed to update garden, please try again',
+  };
 }
 
 /**
