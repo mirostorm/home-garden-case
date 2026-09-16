@@ -23,6 +23,12 @@ export const createGardenSchema = z
       .max(180, 'Longitude must be between -180 and 180')
       .nullable()
       .optional(),
+    targetHumidityLevel: z
+      .number()
+      .min(0, 'Target humidity level must be a positive number')
+      .max(100, 'Target humidity level must be less than 100')
+      .nullable()
+      .optional(),
   })
   .refine(
     (data) => {

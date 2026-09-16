@@ -27,6 +27,7 @@ export interface GardenTable {
   locationDescription: string | null; // e.g., "Backyard", "Patio"
   latitude: number | null; // optional geographic coordinate
   longitude: number | null; // optional geographic coordinate
+  targetHumidityLevel: number | null; // optional target humidity level
   createdAt: ColumnType<Date, string | undefined, never>;
   updatedAt: ColumnType<Date, string | undefined, never>;
 }

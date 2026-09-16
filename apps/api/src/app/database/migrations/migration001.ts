@@ -21,6 +21,7 @@ async function up(db: Kysely<Database>) {
     .addColumn('locationDescription', 'text')
     .addColumn('latitude', 'real')
     .addColumn('longitude', 'real')
+    .addColumn('targetHumidityLevel', 'real')
     .addColumn('createdAt', 'text', (col) => col.defaultTo(sql`CURRENT_TIMESTAMP`).notNull())
     .addColumn('updatedAt', 'text', (col) => col.defaultTo(sql`CURRENT_TIMESTAMP`).notNull())
     .execute();
