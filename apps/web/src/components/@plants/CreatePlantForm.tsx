@@ -1,15 +1,17 @@
 'use client';
 
 import { useActionState } from 'react';
-import { FormDialog, FormInput, FormSelect } from '../@form';
+import { FormDialog } from '../@form';
 
 import { createPlant } from '@/actions/plant.actions';
 import { Button } from '@/components/ui';
-import { PlantType } from '@/types/plant.types';
 import { PlusIcon } from '@phosphor-icons/react';
+import BasePlantForm from './BasePlantForm';
 
 const CreatePlantForm = ({ gardenId }: { gardenId: number }) => {
-  const [_state, action, pending] = useActionState(createPlant, null);
+  const [state, action, pending] = useActionState(createPlant, null);
+
+  console.log({ state });
 
   return (
     <FormDialog
@@ -17,6 +19,7 @@ const CreatePlantForm = ({ gardenId }: { gardenId: number }) => {
       submitText="Add plant"
       formAction={action}
       isPending={pending}
+      error={typeof state?.error === 'string' ? state.error : undefined}
       trigger={
         <Button variant="default">
           <PlusIcon data-icon="inline-start" />
@@ -24,57 +27,7 @@ const CreatePlantForm = ({ gardenId }: { gardenId: number }) => {
         </Button>
       }
     >
-      <FormInput hidden id="gardenId" defaultValue={gardenId} required disabled={pending} />
-
-      <FormInput
-        id="plantName"
-        label="Plant name"
-        placeholder="My new plant"
-        required
-        maxLength={40}
-        disabled={pending}
-      />
-
-      <div className="grid gap-6 md:grid-cols-2">
-        <FormSelect
-          id="plantType"
-          label="Plant type"
-          options={Object.entries(PlantType).map(([label, value]) => ({ label, value }))}
-          required
-          disabled={pending}
-        />
-
-        <FormInput id="species" label="Species" placeholder="Rose" required disabled={pending} />
-
-        <FormInput
-          id="surfaceAreaRequired"
-          label="Required surface area"
-          type="number"
-          placeholder="0"
-          min={0}
-          endAdornment={<span className="font-semibold ml-3">m²</span>}
-          required
-          disabled={pending}
-        />
-        <FormInput
-          id="idealHumidityLevel"
-          label="Ideal humidity level"
-          type="number"
-          placeholder="0"
-          min={0}
-          max={100}
-          endAdornment={<span className="font-semibold ml-3">%</span>}
-          required
-          disabled={pending}
-        />
-      </div>
-      <FormInput
-        id="plantationDate"
-        label="Plantation date"
-        type="date"
-        required
-        disabled={pending}
-      />
+      <BasePlantForm gardenId={gardenId} isPending={pending} />
     </FormDialog>
   );
 };

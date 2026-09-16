@@ -18,7 +18,7 @@ const GardenDetail = ({ plants, ...garden }: Props) => {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-2">
-        <UpdateGardenForm triggerLabel="Edit garden" {...garden} />
+        <UpdateGardenForm triggerLabel="Edit garden" garden={garden} />
         <DeleteGardenDialog
           gardenId={gardenId}
           gardenName={gardenName}

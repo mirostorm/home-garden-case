@@ -74,7 +74,7 @@ const GardensTable = ({ gardens, isLoading, error }: Props) => {
                     <ArrowRightIcon />
                   </Button>
                 </Link>
-                <UpdateGardenForm {...garden} />
+                <UpdateGardenForm garden={garden} />
                 <DeleteGardenDialog gardenId={gardenId} gardenName={gardenName} />
               </TableCell>
             </TableRow>
