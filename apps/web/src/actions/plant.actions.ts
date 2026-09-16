@@ -4,6 +4,8 @@ import { CreatePlantInput, PlantType } from '@/types/plant.types';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 
+const API_BASE_URL = process.env.API_BASE_URL;
+
 const plantValidationSchema = (availableSurfaceArea: number) =>
   z.object({
     plantName: z.string().min(1).max(40).trim(),
@@ -52,7 +54,7 @@ export async function createPlant(_prevState: unknown, formData: FormData) {
     };
   }
 
-  const response = await fetch('http://localhost:3000/plants', {
+  const response = await fetch(`${API_BASE_URL}/plants`, {
     method: 'POST',
     body: JSON.stringify(validatedFields.data),
     headers: { 'Content-Type': 'application/json' },
@@ -92,7 +94,7 @@ export async function updatePlant(_prevState: unknown, formData: FormData) {
     };
   }
 
-  const response = await fetch(`http://localhost:3000/plants/${plantId}`, {
+  const response = await fetch(`${API_BASE_URL}/plants/${plantId}`, {
     method: 'PUT',
     body: JSON.stringify(validatedFields.data),
     headers: { 'Content-Type': 'application/json' },
@@ -122,7 +124,7 @@ export async function deletePlant(_prevState: unknown, formData: FormData) {
   const gardenId = formData.get('gardenId');
   const plantId = formData.get('plantId');
 
-  const response = await fetch(`http://localhost:3000/plants/${plantId}`, {
+  const response = await fetch(`${API_BASE_URL}/plants/${plantId}`, {
     method: 'DELETE',
   });
 

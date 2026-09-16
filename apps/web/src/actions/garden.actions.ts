@@ -5,6 +5,8 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
+const API_BASE_URL = process.env.API_BASE_URL;
+
 const gardenValidationSchema = z.object({
   gardenName: z.string().min(1).max(40).trim(),
   totalSurfaceArea: z
@@ -47,7 +49,7 @@ export async function createGarden(_prevState: unknown, formData: FormData) {
     };
   }
 
-  const response = await fetch('http://localhost:3000/gardens', {
+  const response = await fetch(`${API_BASE_URL}/gardens`, {
     method: 'POST',
     body: JSON.stringify(validatedFields.data),
     headers: { 'Content-Type': 'application/json' },
@@ -84,7 +86,7 @@ export async function updateGarden(_prevState: unknown, formData: FormData) {
     };
   }
 
-  const response = await fetch(`http://localhost:3000/gardens/${gardenId}`, {
+  const response = await fetch(`${API_BASE_URL}/gardens/${gardenId}`, {
     method: 'PUT',
     body: JSON.stringify(validatedFields.data),
     headers: { 'Content-Type': 'application/json' },
@@ -113,7 +115,7 @@ export async function updateGarden(_prevState: unknown, formData: FormData) {
 export async function deleteGarden(_prevState: unknown, formData: FormData) {
   const gardenId = formData.get('gardenId');
 
-  const response = await fetch(`http://localhost:3000/gardens/${gardenId}`, {
+  const response = await fetch(`${API_BASE_URL}/gardens/${gardenId}`, {
     method: 'DELETE',
   });
 

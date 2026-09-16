@@ -1,10 +1,9 @@
 import { GardenDetail } from '@/components/@gardens';
-import { getGarden, getGardenPlants } from '@/queries/garden.queries';
+import { getGarden, getGardenPlants, getGardens } from '@/queries/garden.queries';
 import { Garden } from '@/types/garden.types';
 
 export async function generateStaticParams() {
-  const response = await fetch('http://localhost:3000/gardens', { cache: 'force-cache' });
-  const gardens = await response.json();
+  const gardens = await getGardens();
 
   return gardens.map((garden: Garden) => ({
     slug: garden.gardenId.toString(),

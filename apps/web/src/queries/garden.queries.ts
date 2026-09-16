@@ -1,5 +1,7 @@
+const API_BASE_URL = process.env.API_BASE_URL;
+
 export const getGardens = async () => {
-  const response = await fetch('http://localhost:3000/gardens');
+  const response = await fetch(`${API_BASE_URL}/gardens`);
   if (!response.ok) {
     console.error('Failed to fetch gardens');
     return [];
@@ -9,7 +11,7 @@ export const getGardens = async () => {
 };
 
 export const getGarden = async (gardenId: number) => {
-  const response = await fetch(`http://localhost:3000/gardens/${gardenId}`, {
+  const response = await fetch(`${API_BASE_URL}/gardens/${gardenId}`, {
     cache: 'force-cache',
   });
 
@@ -23,7 +25,7 @@ export const getGarden = async (gardenId: number) => {
 };
 
 export const getGardenPlants = async (gardenId: number) => {
-  const response = await fetch(`http://localhost:3000/plants/garden/${gardenId}`, {
+  const response = await fetch(`${API_BASE_URL}/plants/garden/${gardenId}`, {
     cache: 'force-cache',
   });
 

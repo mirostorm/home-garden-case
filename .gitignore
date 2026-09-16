@@ -5,6 +5,10 @@ dist
 tmp
 out-tsc
 
+# environment variables
+.env*
+!.env*.example
+
 # dependencies
 node_modules
 
