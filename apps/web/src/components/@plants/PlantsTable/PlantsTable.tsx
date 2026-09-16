@@ -33,7 +33,6 @@ const PlantsTable = ({ gardenId, plants, isLoading, error }: Props) => {
         <TableCaption>A list of the plants in this garden.</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead>#</TableHead>
             <TableHead>Name</TableHead>
             <TableHead>Type</TableHead>
             <TableHead>Species</TableHead>

@@ -9,8 +9,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui';
+import { ComponentProps } from 'react';
 
-interface Props {
+interface Props extends ComponentProps<'select'> {
   id: string;
   label: string;
   error?: string;
@@ -22,7 +23,7 @@ interface Props {
   disabled?: boolean;
 }
 
-const FormSelect = ({ id, label, error, options, required, disabled }: Props) => {
+const FormSelect = ({ id, label, error, options, required, disabled, ...props }: Props) => {
   return (
     <Field data-invalid={!!error} className="w-full">
       <FieldLabel htmlFor={id}>{label}</FieldLabel>
@@ -32,7 +33,7 @@ const FormSelect = ({ id, label, error, options, required, disabled }: Props) =>
         name={id}
         required={required}
         disabled={disabled}
-        defaultValue={options[0].value}
+        defaultValue={String(props.defaultValue ?? options[0].value)}
       >
         <SelectTrigger aria-invalid={!!error} className="w-full py-5 bg-gray-100">
           <SelectValue />
