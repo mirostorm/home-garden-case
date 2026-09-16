@@ -1,7 +1,7 @@
 const API_BASE_URL = process.env.API_BASE_URL;
 
 export const getGardens = async () => {
-  const response = await fetch(`${API_BASE_URL}/gardens`);
+  const response = await fetch(`${API_BASE_URL}/gardens`, { cache: 'force-cache' });
   if (!response.ok) {
     console.error('Failed to fetch gardens');
     return [];
