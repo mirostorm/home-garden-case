@@ -31,8 +31,8 @@ const FormInput = ({
   ...rest
 }: Props) => {
   return (
-    <Field className={hidden ? 'hidden' : ''} data-invalid={!!error} data-disabled={disabled}>
-      <FieldLabel htmlFor={id}>
+    <Field className={hidden ? 'hidden' : 'gap-1'} data-invalid={!!error} data-disabled={disabled}>
+      <FieldLabel htmlFor={id} className="mb-1">
         {label} {required && <span className="text-destructive">*</span>}
       </FieldLabel>
 
@@ -41,8 +41,8 @@ const FormInput = ({
         {endAdornment && <InputGroupAddon align="inline-end">{endAdornment}</InputGroupAddon>}
       </InputGroup>
 
-      {message && <FieldDescription>{message}</FieldDescription>}
-      {error && <FieldError>{error}</FieldError>}
+      {error && <FieldError className="italic font-medium">{error}</FieldError>}
+      {message && !error && <FieldDescription className="italic">{message}</FieldDescription>}
     </Field>
   );
 };

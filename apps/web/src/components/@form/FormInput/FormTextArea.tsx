@@ -21,8 +21,8 @@ const FormInput = ({
   ...rest
 }: Props) => {
   return (
-    <Field data-invalid={!!error} data-disabled={disabled}>
-      <FieldLabel htmlFor={id}>
+    <Field data-invalid={!!error} data-disabled={disabled} className="gap-1">
+      <FieldLabel htmlFor={id} className="mb-1">
         {label} {required && <span className="text-destructive">*</span>}
       </FieldLabel>
 
@@ -36,8 +36,8 @@ const FormInput = ({
         id={id}
       />
 
-      {message && <FieldDescription>{message}</FieldDescription>}
-      {!!error && <FieldError>{error}</FieldError>}
+      {!!error && <FieldError className="italic font-medium">{error}</FieldError>}
+      {message && <FieldDescription className="italic">{message}</FieldDescription>}
     </Field>
   );
 };
