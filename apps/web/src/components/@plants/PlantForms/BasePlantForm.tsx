@@ -2,8 +2,8 @@
 
 import { FormInput, FormSelect } from '../../@form';
 
-import { formatDate } from '@/lib/utils';
 import { CreatePlantInput, PlantType } from '@/types/plant.types';
+import { formatDate } from '@/utils';
 
 const DEFAULT_PLANT: CreatePlantInput = {
   plantName: '',

@@ -43,7 +43,8 @@ apps/web/
 │   │   ├── @plants/
 │   │   └── ui/
 │   ├── hooks/
-│   ├── lib/
+│   ├── utils/
+│   ├── queries/             # Data fetching
 │   ├── types/               # Domain types for gardens and plants
 │   └── ...
 ├── public/

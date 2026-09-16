@@ -2,8 +2,8 @@
 
 import { TableCell, TableRow } from '@/components/ui/table';
 
-import { formatDate } from '@/lib/utils';
 import { Plant } from '@/types/plant.types';
+import { formatDate } from '@/utils';
 import { DeletePlantDialog, UpdatePlantForm } from '../PlantForms';
 
 interface Props {
