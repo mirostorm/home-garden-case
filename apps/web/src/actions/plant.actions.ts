@@ -90,3 +90,22 @@ export async function updatePlant(_prevState: unknown, formData: FormData) {
   }
   return false;
 }
+
+/**
+ * **Deletes a plant based on the provided form data.**
+ * @param formData - The form data containing the plant ID.
+ * @returns A promise that resolves when the plant is deleted.
+ */
+export async function deletePlant(_prevState: unknown, formData: FormData) {
+  const gardenId = formData.get('gardenId');
+  const plantId = formData.get('plantId');
+
+  const response = await fetch(`http://localhost:3000/plants/${plantId}`, {
+    method: 'DELETE',
+  });
+
+  if (response.ok) {
+    revalidatePath('/plants');
+    revalidatePath(`/gardens/${gardenId}`);
+  }
+}
