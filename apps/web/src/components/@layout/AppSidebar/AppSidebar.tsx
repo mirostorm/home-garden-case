@@ -7,7 +7,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui';
-import { HouseIcon, PlantIcon, TreeIcon } from '@phosphor-icons/react';
+import { HouseIcon, TreeIcon } from '@phosphor-icons/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { ComponentProps } from 'react';
@@ -23,11 +23,6 @@ const navItems = [
     title: 'My Gardens',
     url: '/gardens',
     icon: <TreeIcon />,
-  },
-  {
-    title: 'My Plants',
-    url: '/plants',
-    icon: <PlantIcon />,
   },
 ];
 
