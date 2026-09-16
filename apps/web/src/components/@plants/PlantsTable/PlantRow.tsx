@@ -4,12 +4,14 @@ import { TableCell, TableRow } from '@/components/ui/table';
 
 import { formatDate } from '@/lib/utils';
 import { Plant } from '@/types/plant.types';
-import { ArrowRightIcon } from '@phosphor-icons/react';
-import Link from 'next/link';
-import { Button } from '../../ui';
 import { DeletePlantDialog, UpdatePlantForm } from '../PlantForms';
 
-const PlantRow = (plant: Plant) => {
+interface Props {
+  availableSurfaceArea: number;
+  plant: Plant;
+}
+
+const PlantRow = ({ availableSurfaceArea, plant }: Props) => {
   const {
     gardenId,
     plantId,
@@ -21,6 +23,7 @@ const PlantRow = (plant: Plant) => {
     plantationDate,
     updatedAt,
   } = plant;
+
   return (
     <TableRow key={plantId} className="font-medium">
       <TableCell className="text-lg font-medium max-w-40 overflow-hidden text-ellipsis">
@@ -33,12 +36,7 @@ const PlantRow = (plant: Plant) => {
       <TableCell>{formatDate(new Date(plantationDate))}</TableCell>
       <TableCell className="font-normal">{updatedAt}</TableCell>
       <TableCell className="flex items-center gap-2">
-        <Link href={`/plants/${plantId}`}>
-          <Button size="icon" variant="secondary" title={`View ${plantName}`}>
-            <ArrowRightIcon />
-          </Button>
-        </Link>
-        <UpdatePlantForm {...plant} />
+        <UpdatePlantForm plant={plant} availableSurfaceArea={availableSurfaceArea} />
         <DeletePlantDialog gardenId={gardenId} plantId={plantId} plantName={plantName} />
       </TableCell>
     </TableRow>

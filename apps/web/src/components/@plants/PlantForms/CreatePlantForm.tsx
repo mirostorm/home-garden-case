@@ -8,7 +8,12 @@ import { Button } from '@/components/ui';
 import { PlusIcon } from '@phosphor-icons/react';
 import BasePlantForm from './BasePlantForm';
 
-const CreatePlantForm = ({ gardenId }: { gardenId: number }) => {
+interface Props {
+  gardenId: number;
+  availableSurfaceArea: number;
+}
+
+const CreatePlantForm = ({ gardenId, availableSurfaceArea }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [state, action, pending] = useActionState(
     async (prevState: unknown, formData: FormData) => {
@@ -35,7 +40,12 @@ const CreatePlantForm = ({ gardenId }: { gardenId: number }) => {
         isPending={pending}
         error={typeof state?.error === 'string' ? state.error : undefined}
       >
-        <BasePlantForm gardenId={gardenId} isPending={pending} errors={state?.error} />
+        <BasePlantForm
+          availableSurfaceArea={availableSurfaceArea}
+          gardenId={gardenId}
+          isPending={pending}
+          errors={state?.error}
+        />
       </FormDialog>
     </>
   );

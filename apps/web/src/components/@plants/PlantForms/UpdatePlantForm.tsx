@@ -9,7 +9,12 @@ import { Plant } from '@/types/plant.types';
 import { PencilIcon } from '@phosphor-icons/react';
 import BasePlantForm from './BasePlantForm';
 
-const UpdatePlantForm = (plant: Plant) => {
+interface Props {
+  availableSurfaceArea: number;
+  plant: Plant;
+}
+
+const UpdatePlantForm = ({ availableSurfaceArea, plant }: Props) => {
   const { plantId, gardenId, plantName } = plant;
 
   const [isOpen, setIsOpen] = useState(false);
@@ -47,6 +52,7 @@ const UpdatePlantForm = (plant: Plant) => {
           plant={plant}
           isPending={pending}
           errors={state?.error}
+          availableSurfaceArea={availableSurfaceArea + plant.surfaceAreaRequired}
         />
       </FormDialog>
     </>

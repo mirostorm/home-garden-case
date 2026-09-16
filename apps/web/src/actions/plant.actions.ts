@@ -4,15 +4,22 @@ import { CreatePlantInput, PlantType } from '@/types/plant.types';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 
-const plantValidationSchema = z.object({
-  plantName: z.string().min(1).max(40).trim(),
-  species: z.string().min(1).max(40).trim(),
-  plantType: z.enum(PlantType),
-  plantationDate: z.string().transform((value) => new Date(value).toISOString()),
-  surfaceAreaRequired: z.number().min(0),
-  idealHumidityLevel: z.number().min(0).max(100),
-  gardenId: z.number(),
-});
+const plantValidationSchema = (availableSurfaceArea: number) =>
+  z.object({
+    plantName: z.string().min(1).max(40).trim(),
+    species: z.string().min(1).max(40).trim(),
+    plantType: z.enum(PlantType),
+    plantationDate: z.string().transform((value) => new Date(value).toISOString()),
+    surfaceAreaRequired: z
+      .number()
+      .min(0)
+      .max(
+        availableSurfaceArea,
+        `There is only space for ${availableSurfaceArea}m² of surface area`,
+      ),
+    idealHumidityLevel: z.number().min(0).max(100),
+    gardenId: z.number(),
+  });
 
 /** Parses the plant data from the form data. */
 const getPlantData = (formData: FormData): CreatePlantInput => {
@@ -34,8 +41,10 @@ const getPlantData = (formData: FormData): CreatePlantInput => {
  */
 export async function createPlant(_prevState: unknown, formData: FormData) {
   const data = getPlantData(formData);
+  const availableSurfaceArea = Number(formData.get('availableSurfaceArea'));
 
-  const validatedFields = plantValidationSchema.safeParse(data);
+  const schema = plantValidationSchema(availableSurfaceArea);
+  const validatedFields = schema.safeParse(data);
   if (!validatedFields.success) {
     return {
       success: false,
@@ -71,9 +80,11 @@ export async function createPlant(_prevState: unknown, formData: FormData) {
  */
 export async function updatePlant(_prevState: unknown, formData: FormData) {
   const plantId = formData.get('plantId');
+  const availableSurfaceArea = Number(formData.get('availableSurfaceArea'));
   const data = getPlantData(formData);
 
-  const validatedFields = plantValidationSchema.safeParse(data);
+  const schema = plantValidationSchema(availableSurfaceArea);
+  const validatedFields = schema.safeParse(data);
   if (!validatedFields.success) {
     return {
       success: false,

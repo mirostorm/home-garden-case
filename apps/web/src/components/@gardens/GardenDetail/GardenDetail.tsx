@@ -13,6 +13,7 @@ interface Props extends Garden {
 
 const GardenDetail = ({ plants, ...garden }: Props) => {
   const { gardenId, gardenName } = garden;
+  const occupiedSurfaceArea = plants.reduce((acc, plant) => acc + plant.surfaceAreaRequired, 0);
 
   return (
     <div className="flex flex-col gap-4">
@@ -25,11 +26,15 @@ const GardenDetail = ({ plants, ...garden }: Props) => {
         />
       </div>
 
-      <GardenInfo {...garden} />
+      <GardenInfo {...garden} occupiedSurfaceArea={occupiedSurfaceArea} />
 
       <Separator />
 
-      <PlantsTable gardenId={gardenId} plants={plants} />
+      <PlantsTable
+        gardenId={gardenId}
+        plants={plants}
+        availableSurfaceArea={garden.totalSurfaceArea - occupiedSurfaceArea}
+      />
     </div>
   );
 };

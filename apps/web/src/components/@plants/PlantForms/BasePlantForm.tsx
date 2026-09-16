@@ -17,6 +17,7 @@ const DEFAULT_PLANT: CreatePlantInput = {
 
 interface Props {
   gardenId: number;
+  availableSurfaceArea: number;
   /** `plantId` should only be passed when updating a plant */
   plantId?: number;
   /** `plant` should only be passed when updating a plant */
@@ -25,7 +26,14 @@ interface Props {
   errors?: Record<string, { errors: string[] }> | string | null;
 }
 
-const BasePlantForm = ({ isPending, gardenId, plantId, plant = DEFAULT_PLANT, errors }: Props) => {
+const BasePlantForm = ({
+  isPending,
+  gardenId,
+  availableSurfaceArea,
+  plantId,
+  plant = DEFAULT_PLANT,
+  errors,
+}: Props) => {
   // gardenId is separated as we don't pass the plant prop when we need a form to create a new plant
   const { plantName, plantType, species, idealHumidityLevel, plantationDate, surfaceAreaRequired } =
     plant;
@@ -35,15 +43,13 @@ const BasePlantForm = ({ isPending, gardenId, plantId, plant = DEFAULT_PLANT, er
       ? []
       : Object.entries(errors).map(([key, value]) => ({ key, value: value.errors[0] }));
 
-  console.log({ errorsArray });
   const getError = (key: string) => errorsArray.find((error) => error.key === key)?.value;
 
   return (
     <>
-      {!!plantId && (
-        <FormInput hidden id="plantId" defaultValue={plantId} required disabled={isPending} />
-      )}
-      <FormInput hidden id="gardenId" defaultValue={gardenId} required disabled={isPending} />
+      {!!plantId && <FormInput hidden id="plantId" defaultValue={plantId} required />}
+      <FormInput hidden id="gardenId" defaultValue={gardenId} required />
+      <FormInput hidden id="availableSurfaceArea" defaultValue={availableSurfaceArea} required />
 
       <FormInput
         id="plantName"

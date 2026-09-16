@@ -45,7 +45,7 @@ const GardenInfo = ({
         <DetailTextBox className="max-w-1/4">
           <h2 className="font-bold">Total surface area available</h2>
           <span className="font-heading text-6xl font-bold text-gray-700">
-            {((totalSurfaceArea - occupiedSurfaceArea) / totalSurfaceArea) * 100}%
+            {Math.round(((totalSurfaceArea - occupiedSurfaceArea) / totalSurfaceArea) * 1000) / 10}%
           </span>
           <span className="font-heading text-xl font-black tracking-wide text-gray-500">
             ({totalSurfaceArea - occupiedSurfaceArea} / {totalSurfaceArea} m²)

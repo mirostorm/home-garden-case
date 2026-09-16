@@ -19,14 +19,15 @@ interface Props {
   plants: Plant[];
   isLoading?: boolean;
   error?: string;
+  availableSurfaceArea: number;
 }
 
-const PlantsTable = ({ gardenId, plants, isLoading, error }: Props) => {
+const PlantsTable = ({ gardenId, plants, isLoading, error, availableSurfaceArea }: Props) => {
   return (
     <div className="flex w-full flex-col gap-2">
       <div className="flex items-center gap-2 justify-between">
         <h2 className="font-heading font-bold ">Plants in this garden</h2>
-        <CreatePlantForm gardenId={gardenId} />
+        <CreatePlantForm gardenId={gardenId} availableSurfaceArea={availableSurfaceArea} />
       </div>
 
       <Table className="bg-gray-100 text-gray-700 p-4 rounded-2xl">
@@ -52,7 +53,13 @@ const PlantsTable = ({ gardenId, plants, isLoading, error }: Props) => {
               </TableCell>
             </TableRow>
           ) : (
-            plants.map((plant) => <PlantRow {...plant} key={plant.plantId} />)
+            plants.map((plant) => (
+              <PlantRow
+                plant={plant}
+                availableSurfaceArea={availableSurfaceArea}
+                key={plant.plantId}
+              />
+            ))
           )}
         </TableBody>
       </Table>
