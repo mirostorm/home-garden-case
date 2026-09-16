@@ -10,6 +10,7 @@ const DEFAULT_GARDEN: CreateGardenInput = {
   locationDescription: undefined,
   latitude: undefined,
   longitude: undefined,
+  targetHumidityLevel: undefined,
 };
 
 interface Props {
@@ -22,7 +23,14 @@ interface Props {
 }
 
 const BaseGardenForm = ({ gardenId, garden = DEFAULT_GARDEN, isPending, errors }: Props) => {
-  const { gardenName, totalSurfaceArea, locationDescription, latitude, longitude } = garden;
+  const {
+    gardenName,
+    totalSurfaceArea,
+    targetHumidityLevel,
+    locationDescription,
+    latitude,
+    longitude,
+  } = garden;
 
   const errorsArray =
     typeof errors === 'string' || !errors
@@ -47,18 +55,32 @@ const BaseGardenForm = ({ gardenId, garden = DEFAULT_GARDEN, isPending, errors }
         error={getError('gardenName')}
         message="The garden name must be between 1 and 40 characters long."
       />
-      <FormInput
-        id="totalSurfaceArea"
-        label="Total surface area"
-        type="number"
-        placeholder="0"
-        min={0}
-        endAdornment={<span className="font-semibold ml-3">m²</span>}
-        required
-        disabled={isPending}
-        error={getError('totalSurfaceArea')}
-        defaultValue={totalSurfaceArea}
-      />
+      <div className="grid gap-6 md:grid-cols-2">
+        <FormInput
+          id="totalSurfaceArea"
+          label="Total surface area"
+          type="number"
+          placeholder="0"
+          min={0}
+          endAdornment="m²"
+          required
+          disabled={isPending}
+          error={getError('totalSurfaceArea')}
+          defaultValue={totalSurfaceArea}
+        />
+        <FormInput
+          id="targetHumidityLevel"
+          label="Target humidity level"
+          type="number"
+          placeholder="0"
+          min={0}
+          max={100}
+          endAdornment="%"
+          disabled={isPending}
+          error={getError('targetHumidityLevel')}
+          defaultValue={targetHumidityLevel}
+        />
+      </div>
       <FormTextArea
         id="locationDescription"
         label="Garden description"

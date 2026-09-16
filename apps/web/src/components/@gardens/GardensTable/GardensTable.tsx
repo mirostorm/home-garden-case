@@ -27,7 +27,8 @@ const GardensTable = ({ gardens, isLoading, error }: Props) => {
         <TableRow>
           <TableHead>Name</TableHead>
           <TableHead>Description</TableHead>
-          <TableHead>Total Surface Area</TableHead>
+          <TableHead>Total surface area</TableHead>
+          <TableHead>Target humidity level</TableHead>
           <TableHead>
             Location <span className="font-normal italic">(latitude, longitude)</span>
           </TableHead>

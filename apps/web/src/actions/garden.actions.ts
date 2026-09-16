@@ -14,6 +14,7 @@ const gardenValidationSchema = z.object({
   locationDescription: z.string().max(100).trim().optional(),
   latitude: z.number().min(-90).max(90).optional(),
   longitude: z.number().min(-180).max(180).optional(),
+  targetHumidityLevel: z.number().min(0).max(100).optional(),
 });
 
 /** Parses the garden data from the form data. */
@@ -24,6 +25,9 @@ const getGardenData = (formData: FormData): CreateGardenInput => {
     locationDescription: (formData.get('locationDescription') as string) || undefined,
     latitude: formData.get('latitude') ? Number(formData.get('latitude')) : undefined,
     longitude: formData.get('longitude') ? Number(formData.get('longitude')) : undefined,
+    targetHumidityLevel: formData.get('targetHumidityLevel')
+      ? Number(formData.get('targetHumidityLevel'))
+      : undefined,
   };
 };
 

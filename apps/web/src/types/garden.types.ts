@@ -4,6 +4,7 @@ export interface Garden {
   locationDescription?: string;
   latitude?: number;
   longitude?: number;
+  targetHumidityLevel?: number;
   gardenId: number;
   createdAt: string;
   updatedAt: string;

@@ -14,6 +14,9 @@ interface Props extends Garden {
 const GardenDetail = ({ plants, ...garden }: Props) => {
   const { gardenId, gardenName } = garden;
   const occupiedSurfaceArea = plants.reduce((acc, plant) => acc + plant.surfaceAreaRequired, 0);
+  const averageRequiredHumidity = !!plants.length
+    ? plants.reduce((acc, plant) => acc + plant.idealHumidityLevel, 0) / plants.length
+    : undefined;
 
   return (
     <div className="flex flex-col gap-4">
@@ -26,7 +29,11 @@ const GardenDetail = ({ plants, ...garden }: Props) => {
         />
       </div>
 
-      <GardenInfo {...garden} occupiedSurfaceArea={occupiedSurfaceArea} />
+      <GardenInfo
+        {...garden}
+        occupiedSurfaceArea={occupiedSurfaceArea}
+        averageRequiredHumidity={averageRequiredHumidity}
+      />
 
       <Separator />
 

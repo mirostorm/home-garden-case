@@ -15,6 +15,7 @@ const GardenRow = (garden: Garden) => {
     locationDescription,
     latitude,
     longitude,
+    targetHumidityLevel,
     updatedAt,
   } = garden;
 
@@ -32,7 +33,9 @@ const GardenRow = (garden: Garden) => {
       </TableCell>
 
       <TableCell>{totalSurfaceArea} m²</TableCell>
-      <TableCell>{latitude && longitude && `${latitude}, ${longitude}`}</TableCell>
+      <TableCell>{targetHumidityLevel ? `${targetHumidityLevel}%` : '-'}</TableCell>
+
+      <TableCell>{latitude && longitude ? `${latitude}, ${longitude}` : '-'}</TableCell>
       <TableCell>{updatedAt}</TableCell>
 
       <TableCell className="flex items-center gap-2">
