@@ -1,28 +1,9 @@
 import { GardenDetail } from '@/components/@gardens';
+import { getGarden, getGardenPlants } from '@/queries/garden.queries';
 import { Garden } from '@/types/garden.types';
 
-const getGarden = async (gardenId: number) => {
-  const response = await fetch(`http://localhost:3000/gardens/${gardenId}`);
-  if (!response.ok) {
-    console.error('Failed to fetch garden');
-    return [];
-  }
-  const data = await response.json();
-  return data;
-};
-
-const getGardenPlants = async (gardenId: number) => {
-  const response = await fetch(`http://localhost:3000/plants/garden/${gardenId}`);
-  if (!response.ok) {
-    console.error('Failed to fetch plants in garden');
-    return [];
-  }
-  const data = await response.json();
-  return data;
-};
-
 export async function generateStaticParams() {
-  const response = await fetch('http://localhost:3000/gardens');
+  const response = await fetch('http://localhost:3000/gardens', { cache: 'force-cache' });
   const gardens = await response.json();
 
   return gardens.map((garden: Garden) => ({

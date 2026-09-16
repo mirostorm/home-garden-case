@@ -1,20 +1,11 @@
 import { CreateGardenForm, GardensTable } from '@/components/@gardens';
+import { getGardens } from '@/queries/garden.queries';
 import { Metadata } from 'next';
 import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Home Garden - Your Gardens',
   description: 'View your gardens and add new ones',
-};
-
-const getGardens = async () => {
-  const response = await fetch('http://localhost:3000/gardens');
-  if (!response.ok) {
-    console.error('Failed to fetch gardens');
-    return [];
-  }
-  const data = await response.json();
-  return data;
 };
 
 const GardensPage = async () => {
