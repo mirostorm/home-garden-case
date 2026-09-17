@@ -1,17 +1,18 @@
 # Home Garden Web App
 
-This is the Next.js frontend for the Home Garden project. It provides a dashboard for managing gardens and the plants within them, with a UI built on App Router, Tailwind CSS with ShadCN, and reusable component patterns.
+This is the Next.js frontend for the Home Garden project. It provides a dashboard for managing gardens and the plants inside them, with a UI built using the App Router, TypeScript, and Tailwind CSS.
 
-The app talks to the backend API running on localhost:3000 and is intended to be used together with the API app.
+The web app is designed to run alongside the Fastify API at `http://localhost:3000`.
 
 ## Overview
 
-The web app is responsible for:
+The frontend is responsible for:
 
-- showing a landing page and dashboard-style browsing experience
-- listing gardens and rendering garden detail views
-- interacting with garden & plant data via the backend API
-- handling server actions and form validation for mutation flows
+- showing the landing page and garden overview
+- listing all gardens and creating new entries
+- rendering a detail page for each garden and its plants
+- creating, updating, and deleting plants attached to a selected garden
+- validating form payloads before sending requests to the API
 
 ## Tech stack
 
@@ -26,34 +27,44 @@ The web app is responsible for:
 ```text
 apps/web/
 ├── src/
-│   ├── actions/             # Server actions for form submissions and API calls
-│   ├── app/                 # App Router pages and layouts
+│   ├── actions/
+│   │   ├── garden.actions.ts
+│   │   ├── garden.actions.test.ts
+│   │   ├── plant.actions.ts
+│   │   └── plant.actions.test.ts
+│   ├── app/
 │   │   ├── (user)/
-│   │   │   ├── page.tsx     # Landing page
-│   │   │   ├── gardens/
-│   │   │   │   ├── page.tsx
-│   │   │   │   └── [slug]/page.tsx
-│   │   ├── api/
-│   │   ├── globals.css
-│   │   └── layout.tsx
-│   ├── components/          # UI blocks and feature-specific components
+│   │   │   ├── page.tsx
+│   │   │   ├── layout.tsx
+│   │   │   └── gardens/
+│   │   │       ├── page.tsx
+│   │   │       └── [slug]/page.tsx
+│   │   ├── global.css
+│   │   ├── layout.tsx
+│   │   └── favicon.ico
+│   ├── components/
 │   │   ├── @form/
 │   │   ├── @gardens/
-│   │   ├── @layout/
 │   │   ├── @plants/
+│   │   ├── @layout/
 │   │   └── ui/
 │   ├── hooks/
+│   ├── queries/
+│   │   └── garden.queries.ts
+│   ├── types/
+│   │   ├── garden.types.ts
+│   │   └── plant.types.ts
 │   ├── utils/
-│   ├── queries/             # Data fetching
-│   ├── types/               # Domain types for gardens and plants
 │   └── ...
 ├── public/
 │   └── assets/
+├── .env.local.example
 ├── components.json
 ├── next.config.js
 ├── project.json
 ├── package.json
 ├── tsconfig.json
+├── vitest.config.ts
 └── eslint.config.mjs
 ```
 
@@ -61,40 +72,51 @@ apps/web/
 
 ### Public landing page
 
-- `/` — welcome page with call-to-action to browse gardens
+- `/` — welcome view with a call to action to browse gardens
 
 ### Gardens
 
-- `/gardens` — list all gardens and allow CRUD
+- `/gardens` — list all gardens and allow creation flows
 - `/gardens/[slug]` — detail page for a single garden, including associated plants
 
 ## How the app works
 
-The frontend is intentionally thin and mostly acts as a UI layer over the API. Most data fetching and mutations happen from:
+The frontend is intentionally thin and mostly acts as a UI layer on top of the API. Most operations are driven by:
 
-- server components in the App Router
+- server components inside the App Router
 - server actions in `src/actions`
-- direct fetch calls to the backend API at `http://localhost:3000`
+- cached fetch helpers in `src/queries`
 
 Examples:
 
-- `garden.actions.ts` validates form input and sends create/update/delete requests to the API
-- page files under `src/app/(user)/gardens` fetch garden and plant data and pass it to UI components
+- `garden.actions.ts` validates form input and posts to the backend for create/update/delete operations
+- `plant.actions.ts` enforces plant-space constraints before creating or editing a plant
+- `garden.queries.ts` fetches garden and plant data using cached React requests
 
-This means the frontend is easy to follow because the data flow is usually:
+The normal flow is:
 
-1. Page or action loads request data
-2. API returns JSON
-3. UI renders the result
-4. Form actions validate, call the API, and revalidate related paths
+1. a page loads and requests data from the API
+2. the API returns JSON
+3. the UI renders the result
+4. a mutation action validates input and revalidates the relevant Next.js paths
+
+## Runtime configuration
+
+Create a local environment file for the web app at `apps/web/.env.local` using the example file:
+
+```env
+API_BASE_URL=http://localhost:3000
+```
+
+This value must point to the Fastify API running locally.
 
 ## Prerequisites
 
 Before running the app, make sure you have:
 
-- Node.js installed (correct version -> `nvm use`)
+- Node.js 20+
 - npm available
-- dependencies installed from the workspace root
+- dependencies installed at the workspace root
 
 ## Install dependencies
 
@@ -112,15 +134,13 @@ npm install
 npm run dev
 ```
 
-This runs the workspace in parallel using Nx.
-
 ### Start only the frontend
 
 ```bash
 npx nx run web:dev
 ```
 
-The web app runs on:
+The app runs on:
 
 - http://localhost:4200
 
@@ -133,38 +153,42 @@ npx nx run api:dev
 The API runs on:
 
 - http://localhost:3000
+- Swagger UI: http://localhost:3000/docs
 
 ## Important runtime note
 
-The frontend is configured to fetch data from the backend at `http://localhost:3000`.
-
-If the API is not running, the web app may render empty states or fail to load content. Always make sure the backend is started before using the garden-related pages.
+The frontend fetches data from the backend at `http://localhost:3000`. If the API is not running, the garden pages may render empty states or fail to load data.
 
 ## Useful commands
 
 From the repository root:
 
 ```bash
-# run web only
+# run the web app only
 npx nx run web:dev
 
-# run API only
+# run the API only
 npx nx run api:dev
 
-# run all app targets in parallel
+# run both apps in parallel
 npm run dev
+
+# run frontend tests
+npm test
 ```
 
 ## Development conventions
 
-- Keep UI logic in components under `src/components`
-- Keep server-side API interaction in `src/actions` or page-level fetches
+- Keep UI logic in `src/components`
+- Keep API interaction in `src/actions` and `src/queries`
 - Prefer typed domain models from `src/types`
-- Use existing patterns for form validation and `revalidatePath` after mutations
+- Validate forms with Zod before sending requests
+- Call `revalidatePath` after successful mutation flows
 
 ## Styling
 
-This project uses Tailwind CSS. Global styling and theme setup live in:
+This project uses Tailwind CSS, with styling configuration and shared design tokens defined in:
 
 - `src/app/global.css`
 - `src/app/layout.tsx`
+- the UI component folder under `src/components/ui`
