@@ -15,11 +15,9 @@ import GardenRow from './GardenRow';
 
 interface Props {
   gardens: Garden[];
-  isLoading?: boolean;
-  error?: string;
 }
 
-const GardensTable = ({ gardens, isLoading, error }: Props) => {
+const GardensTable = ({ gardens }: Props) => {
   return (
     <Table>
       <TableCaption>A list of your gardens.</TableCaption>

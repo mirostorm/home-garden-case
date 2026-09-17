@@ -12,6 +12,7 @@ export async function generateStaticParams() {
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
+
   const garden = await getGarden(Number(slug));
   const plants = await getGardenPlants(Number(slug));
 

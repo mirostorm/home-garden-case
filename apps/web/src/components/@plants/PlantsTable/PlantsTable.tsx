@@ -17,20 +17,11 @@ import PlantRow from './PlantRow';
 interface Props {
   gardenId: number;
   plants: Plant[];
-  isLoading?: boolean;
-  error?: string;
   availableSurfaceArea: number;
   targetHumidityLevel?: number;
 }
 
-const PlantsTable = ({
-  gardenId,
-  plants,
-  isLoading,
-  error,
-  availableSurfaceArea,
-  targetHumidityLevel,
-}: Props) => {
+const PlantsTable = ({ gardenId, plants, availableSurfaceArea, targetHumidityLevel }: Props) => {
   return (
     <div className="flex w-full flex-col gap-2">
       <div className="flex items-center gap-2 justify-between">
@@ -56,7 +47,7 @@ const PlantsTable = ({
         <TableBody>
           {!plants.length ? (
             <TableRow>
-              <TableCell colSpan={9} className="text-center font-bold">
+              <TableCell colSpan={8} className="text-center font-bold">
                 No plants found
               </TableCell>
             </TableRow>
