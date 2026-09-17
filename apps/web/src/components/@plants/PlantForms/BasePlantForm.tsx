@@ -118,7 +118,7 @@ const BasePlantForm = ({
         label="Plantation date"
         type="date"
         required
-        value={formatDate(new Date(plantationDate))}
+        defaultValue={formatDate(new Date(plantationDate))}
         disabled={isPending}
         error={getError('plantationDate')}
       />

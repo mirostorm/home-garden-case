@@ -131,5 +131,14 @@ export async function deletePlant(_prevState: unknown, formData: FormData) {
   if (response.ok) {
     revalidatePath('/plants');
     revalidatePath(`/gardens/${gardenId}`);
+    return {
+      success: true,
+      error: null,
+    };
   }
+
+  return {
+    success: false,
+    error: 'Failed to delete plant, please try again',
+  };
 }

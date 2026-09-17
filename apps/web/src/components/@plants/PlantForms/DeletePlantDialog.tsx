@@ -2,19 +2,19 @@
 
 import { deletePlant } from '@/actions/plant.actions';
 import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-    Button,
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+  Button,
 } from '@/components/ui';
 import { TrashSimpleIcon } from '@phosphor-icons/react';
-import { useActionState } from 'react';
+import { useActionState, useState } from 'react';
 import { FormInput } from '../../@form';
 
 interface Props {
@@ -25,15 +25,18 @@ interface Props {
 }
 
 const DeletePlantDialog = ({ gardenId, plantId, plantName, buttonLabel }: Props) => {
+  const [isOpen, setIsOpen] = useState(false);
   const [_state, action, pending] = useActionState(
     async (previousState: unknown, formData: FormData) => {
-      return await deletePlant(previousState, formData);
+      const res = await deletePlant(previousState, formData);
+      if (res.success) setIsOpen(false);
+      return res;
     },
     null,
   );
 
   return (
-    <AlertDialog>
+    <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
       <AlertDialogTrigger render={<Button variant="destructive" title="Remove plant" />}>
         <TrashSimpleIcon data-icon="inline-start" />
         {buttonLabel}

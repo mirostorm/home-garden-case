@@ -85,12 +85,12 @@ const GardenInfo = ({
                     Your garden is approximately {targetHumidityLevel - averageRequiredHumidity}%
                     too humid for the plants to thrive.
                   </span>
-                ) : (
+                ) : targetHumidityLevel < averageRequiredHumidity ? (
                   <span className="text-orange-700">
                     Your garden is approximately {averageRequiredHumidity - targetHumidityLevel}%
                     too dry for the plants to thrive.
                   </span>
-                )}
+                ) : null}
               </p>
             )}
           </DetailTextBox>
