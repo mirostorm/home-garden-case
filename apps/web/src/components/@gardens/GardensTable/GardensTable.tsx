@@ -40,7 +40,7 @@ const GardensTable = ({ gardens, isLoading, error }: Props) => {
       <TableBody>
         {!gardens.length ? (
           <TableRow>
-            <TableCell colSpan={6} className="text-center font-bold">
+            <TableCell colSpan={7} className="text-center font-bold">
               No gardens found
             </TableCell>
           </TableRow>
